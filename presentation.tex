@@ -1,0 +1,734 @@
+%% LyX 2.0.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english,brazil]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{color}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+ % this default might be overridden by plain title style
+ \newcommand\makebeamertitle{\frame{\maketitle}}%
+ \AtBeginDocument{
+   \let\origtableofcontents=\tableofcontents
+   \def\tableofcontents{\@ifnextchar[{\origtableofcontents}{\gobbletableofcontents}}
+   \def\gobbletableofcontents#1{\origtableofcontents}
+ }
+ \def\lyxframeend{} % In case there is a superfluous frame end
+ \long\def\lyxframe#1{\@lyxframe#1\@lyxframestop}%
+ \def\@lyxframe{\@ifnextchar<{\@@lyxframe}{\@@lyxframe<*>}}%
+ \def\@@lyxframe<#1>{\@ifnextchar[{\@@@lyxframe<#1>}{\@@@lyxframe<#1>[]}}
+ \def\@@@lyxframe<#1>[{\@ifnextchar<{\@@@@@lyxframe<#1>[}{\@@@@lyxframe<#1>[<*>][}}
+ \def\@@@@@lyxframe<#1>[#2]{\@ifnextchar[{\@@@@lyxframe<#1>[#2]}{\@@@@lyxframe<#1>[#2][]}}
+ \long\def\@@@@lyxframe<#1>[#2][#3]#4\@lyxframestop#5\lyxframeend{%
+   \frame<#1>[#2][#3]{\frametitle{#4}#5}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage[english, brazil]{babel}
+\usepackage{pgf}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{algorithmicx, algorithm2e}
+\usepackage{algpseudocode,algorithm}
+\everymath{\displaystyle}
+\mode<presentation> {
+  \usetheme{CambridgeUS}
+  \usecolortheme[named=darkgray]{structure}
+  \setbeamercolor*{palette primary}{use=structure,fg=lightgray,bg=gray}
+  \setbeamercolor*{palette secondary}{use=structure,fg=lightgray,bg=gray}
+  \setbeamercolor*{palette tertiary}{use=structure,fg=lightgray,bg=darkgray}
+  \setbeamercovered{transparent}
+}
+\setbeamertemplate{navigation symbols}{} %remove navigation symbols
+\setbeamertemplate{footline}[page number]
+\beamerdefaultoverlayspecification{<+->}
+
+% http://latexbr.blogspot.com.br/2013/01/pseudo-codigo-no-latex-em-portugues.html
+% Declaracoes em Português
+\algrenewcommand\algorithmicend{\textbf{fim}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+\algrenewcommand\algorithmicreturn{\textbf{devolve}}
+\algrenewcommand\algorithmicfunction{\textbf{função}}
+
+% Rearranja os finais de cada estrutura
+\algrenewtext{EndWhile}{\algorithmicend\ \algorithmicwhile}
+\algrenewtext{EndFor}{\algorithmicend\ \algorithmicfor}
+\algrenewtext{EndIf}{\algorithmicend\ \algorithmicif}
+\algrenewtext{EndFunction}{\algorithmicend\ \algorithmicfunction}
+
+% O comando For, a seguir, retorna 'para #1 -- #2 até #3 faça'
+\algnewcommand\algorithmicto{\textbf{até}}
+\algrenewtext{For}[3]%
+{\algorithmicfor\ #1 $\gets$ #2 \algorithmicto\ #3 \algorithmicdo}
+
+%http://tex.stackexchange.com/questions/1375/what-is-a-good-package-for-displaying-algorithms/1376#1376
+% http://tex.stackexchange.com/questions/30363/how-do-i-define-a-new-command-in-algorithmicx
+\algnewcommand\algorithmicinput{\textbf{INPUT:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\title{Árvores de Fenwick: Algoritmos e Aplicações}
+
+
+\author{\textbf{Thiago Barroso Perrotta}\\Prof.ª Márcia R. Cerioli}
+
+
+\institute{Universidade Federal do Rio de Janeiro\\Bolsa PICME (CNPq / OBMEP) \\[20pt] XXXV Jornada Giulio Massarani de Iniciação Científica, Tecnológica, Artística e Cultural }
+
+
+\titlegraphic{\includegraphics[scale=0.25]{imgs/ufrj}}
+
+
+\date{30 de setembro de 2013}
+
+\makebeamertitle
+
+\lyxframeend{}
+
+
+
+
+\lyxframeend{}\section{Frequências acumuladas}
+
+
+\lyxframeend{}\subsection{Conceituando}
+
+
+\lyxframeend{}\lyxframe{Problema: somas acumuladas}
+\begin{itemize}
+\item Dado $v=[v_{1},v_{2},\ldots,v_{n}]$ vetor de $n$ elementos, definimos
+\item $s_{j}=\sum_{j=1}^{i}v_{j}\quad1\le i\leq n$, vetor de somas acumuladas
+associado a $v$\end{itemize}
+\begin{block}
+{Operações} 
+\begin{description}
+\item [{valor$(i)$}] devolve $v_{i}$;
+\item [{query$(i)$}] devolve a frequência acumulada $s_{i}$;
+\item [{update$(i,x)$}] muda o \emph{i-ésimo} elemento de $v$: $\; v_{i}\gets v_{i}+x$
+\end{description}
+\end{block}
+
+\pause{}
+
+\begin{center}
+$\begin{array}{cccc}
+v_{a}=[{\color{blue}1,2,3,\phantom{1}4},\phantom{1}5] &  &  & v_{b}=[{\color{blue}{\color{magenta}{\color{blue}8,\phantom{1}2,-3,\phantom{1}4,\phantom{1}5}}},\phantom{1}1,-1,\phantom{1}0]\\
+s_{a}=[1,3,6,{\color{red}10},15] &  &  & s_{b}=[8,10,\phantom{-}7,11,{\color{red}16},17,16,16]\\
+\downarrow &  &  & \downarrow\\
+\text{valor}(4)=4 &  &  & \mbox{original\ensuremath{(5)=5}}\\
+\text{query}(4)=10 &  &  & \text{query}(5)=16\\
+\text{update\ensuremath{(4,3)=\not4\rightarrow7}} &  &  & \mbox{\text{update\ensuremath{(5,-2):\not5\rightarrow3}}}
+\end{array}$
+\par\end{center}
+
+
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\subsection{Implementando}
+
+
+\lyxframeend{}\lyxframe{Soluções Ingênuas}
+
+
+
+$\bullet$ Solução ingênua $\#1:$ guardar $v$ \qquad $v=[\color{red}v_1,v_2,\ldots,v_i\color{black},v_{i+1},\ldots,v_n]$
+\vspace{-.3cm}
+\begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+     \input{codes/guardar-v-update.tex}
+  \end{column}
+  \vrule{}
+  \begin{column}{0.5\textwidth}
+    \input{codes/guardar-v-query.tex}
+  \end{column}
+\end{columns}
+
+\pause
+
+\vspace{.2cm}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{.2cm}
+
+$\bullet$ Solução ingênua $\#2:$ guardar $s$ \qquad $s=[s_1,s_2,\ldots,\color{red}s_i,s_{i+1},\ldots,s_n \color{black} ]$  
+\vspace{-.3cm}
+\begin{columns}[T]
+  \begin{column}{0.5\textwidth}
+    \input{codes/guardar-s-query.tex}
+  \end{column}
+  \vrule{}
+  \begin{column}{0.5\textwidth}
+     \input{codes/guardar-s-update.tex}
+  \end{column}
+\end{columns}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Eficiência}
+\begin{itemize}
+\item Complexidade
+\end{itemize}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+ & construção & valor & update & query\tabularnewline
+\hline 
+Solução Ingênua \#1 (guardar $v$) & $O(n)$ & $O(1)$ & $O(1)$ & \textcolor{red}{$O(n)$}\tabularnewline
+\hline 
+Solução Ingênua \#2 (guardar $s$) & $O(n)$ & $O(1)$ & \textcolor{red}{$O(n)$} & $O(1)$\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+\bigskip{}
+
+\begin{itemize}
+\item Em geral: \textcolor{red}{$O(n)$}
+\item E se precisarmos ser \textbf{mais} eficientes?
+\end{itemize}
+\begin{center}
+\includegraphics[scale=0.22]{imgs/hour-glass}
+\par\end{center}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\section{Árvores de Fenwick}
+
+
+\lyxframeend{}\subsection{Conceituando}
+
+
+\lyxframeend{}\lyxframe{Árvores de Fenwick!}
+
+\begin{columns}
+  \begin{column}{0.75\textwidth}
+	\begin{itemize}
+		\item Mais conhecidas por \textbf{Binary Indexed Tree (BIT);}
+		\item Propostas por Peter M. Fenwick em 1994;
+		%\item University of Auckland / New Zealand.
+	\end{itemize}
+			\begin{center}
+				\begin{tabular}{|c|c|c|c|c|}
+					\hline 
+					 & construção & update & query & valor\tabularnewline
+					\hline 
+					BIT & $O(n \times \lg n)$ & $\color{blue} O(\lg n)$ & $\color{blue} O(\lg n)$ & $\color{blue} O(\lg n)$\tabularnewline
+					\hline 
+				\end{tabular}
+			\par\end{center}
+  \end{column}
+
+  \begin{column}{0.25\textwidth}
+	\includegraphics[scale=0.7]{imgs/fenwick}
+  \end{column}
+\end{columns}
+
+
+\begin{block}
+{Estrutura de Dados}
+\begin{itemize}
+\item Vetor de $n$ elementos, inicialmente zerado \foreignlanguage{english}{\textrm{$t=\underbrace{[0,0,\mbox{}\ldots\mbox{},0]}_{n\text{ zeros}}$;}}
+\selectlanguage{english}%
+\item Convenção: $t_{0}=0$
+\selectlanguage{brazil}%
+\item Representação binária dos índices
+\end{itemize}
+\end{block}
+
+\lyxframeend{}\lyxframe{Ideia principal}
+
+\textbf{$\bullet$ Ideia:}\emph{ }cada índice torna-se responsável
+por um conjunto de outros índices \vspace{-1cm}
+
+\includegraphics[scale=0.32]{graphics/bit-trees}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Árvore de Atualização (A.A.)}
+
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{graphics/updating-tree-example}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\begin{itemize}
+\item Relaciona $t_{i}'s$ e $v_{i}'s$;
+\item $t_{i}=v_{i}+\sum_{\forall j\text{ descend. de \ensuremath{i}}}v_{j}\longleftrightarrow$
+soma dos elementos da subárvore de $i$;
+\item Exemplo: $t_{12}=v_{12}+v_{11}+v_{10}+v_{9}$
+\end{itemize}
+
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Árvore de Atualização: Propriedades}
+
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{imgs/updating-tree}
+\vspace{-.4cm}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{-.4cm}
+\begin{itemize}
+\item Pai de $i:$ deslocar o \textcolor{blue}{1} menos significativo (\textbf{1LSB})
+para a esquerda;
+
+\begin{itemize}
+\item Ex.: $9=100{\color{blue}1_{b}}\rightarrow10=10{\color{blue}1}0_{b}\rightarrow12=1{\color{blue}1}00_{b}\rightarrow16={\color{blue}1}0000_{b}$\vfill
+\end{itemize}
+\item Filhos de $i$: \textbf{retirar} o 1LSB; transformar em 1 os zeros
+à direita dele. 
+
+\begin{itemize}
+\item Ex.: $\begin{array}{rcl}
+12=1{\color{blue}1}00_{b} & \longrightarrow & \{9=10{\color{magenta}01}_{b},10=10{\color{magenta}10}_{b},11=10{\color{magenta}11}_{b}\}\end{array}$
+\end{itemize}
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Árvore de Atualização: Implementação}
+
+$\bullet$ Note: \foreignlanguage{english}{\textrm{$100{\color{blue}1}_{b}\longrightarrow10{\color{blue}1}0_{b}\longrightarrow1{\color{blue}1}00_{b}\longrightarrow{\color{blue}1}0000_{b}$}}
+\begin{itemize}
+\item $100{\color{red}1}_{b}+000{\color{red}1}_{b}=10{\color{red}{\color{magenta}{\color{red}1}}}0_{b};$
+\item $10{\color{red}1}0_{b}+00{\color{red}1}0_{b}=1{\color{red}{\color{red}1}}00_{b};$
+\item $1{\color{red}1}00_{b}+0{\color{red}1}00_{b}={\color{magenta}{\color{red}1}}0000_{b}$\vfill
+\end{itemize}
+\input{codes/bit-update}\vfill
+\begin{itemize}
+\item $O(\lg n)$
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Isolando o 1LSB}
+
+
+\begin{block}
+{Convenções}
+
+\begin{center}
+$\overline{x}=\textrm{NOT}(x)$;$\qquad$ \foreignlanguage{english}{\textrm{$-x=\overline{x}+1$;$\qquad$}}$\ast$
+denota repetição
+\par\end{center}
+
+{Ideia}
+
+$\begin{array}{rcl}
+x & = & m\,\,1\,\,0^{*}\,\,_{b}\blacktriangleleft\\
+\overline{x} & = & \overline{m}\,\,0\,\,1^{*}\,\,_{b}\\
+\overline{x}+1 & = & \overline{m}\,\,1\,\,0^{*}\,\,_{b}\blacktriangleleft\\
+x\,\&\,-x & = & 0^{*}\,1\,\,0^{*}\,\,_{b}
+\end{array}$
+
+\end{block}
+
+\pause{}
+\begin{exampleblock}
+{Um exemplo}
+
+$\begin{array}{rcl}
+x=50: &  & 1\,\,1\,\,0\,\,0\,\,{\color{blue}1}\,\,0\,\,_{b}\\
+\overline{x}+1=14: &  & 0\,\,0\,\,1\,\,1\,\,{\color{blue}1}\,\,0\,\,_{b}\\
+x\,\&\,-x=2: & = & 0\,\,0\,\,0\,\,0\,\,{\color{blue}1}\,\,0\,\,_{b}
+\end{array}$
+
+\end{exampleblock}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Ideia principal}
+
+\textbf{$\bullet$ Ideia:}\emph{ }cada índice torna-se responsável
+por um conjunto de outros índices \vspace{-1cm}
+
+\includegraphics[scale=0.32]{graphics/bit-trees}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Árvore de Interrogação (A.I.)}
+
+\begin{center}
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{graphics/querying-tree-example}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\par\end{center}
+\begin{itemize}
+\item Relaciona $t_{i}'s$ e $s_{i}'s$;
+\item $s_{i}=t_{i}+\sum_{\forall j\text{ ancestral de }i}t_{j}\longleftrightarrow$
+soma dos elementos de $i$ até a raiz;
+\item Exemplo: $s_{7}=t_{7}+t_{6}+t_{4}$\color{gray} $\,+\,\not t_{0}$\color{black}
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Árvore de Interrogação: Propriedades}
+
+\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{imgs/querying-tree}
+\vspace{-.4cm}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{-.4cm}
+\begin{itemize}
+\item Pai de $i$: retirar o 1LSB;
+
+\begin{itemize}
+\item Ex.: $7=11{\color{blue}1}_{b}\rightarrow6=1{\color{blue}1}0_{b}\rightarrow4={\color{blue}1}00_{b}\rightarrow0=000_{b}$
+\end{itemize}
+\item Filho de $i$: transformar em 1 os zeros à direita do 1LSB.
+
+
+$\begin{array}{rcl}
+4={\color{blue}1}00_{b} & \longrightarrow & \{5=1{\color{magenta}01}_{b},6=1{\color{magenta}10}_{b},7=1{\color{magenta}11}_{b}\}\end{array}$
+
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Árvore de Interrogação: Implementação}
+\begin{itemize}
+\item Altura de $i$ = $\#$ de $1's$ na representação binária de $i$.
+Ex.:
+
+\begin{itemize}
+\item $7=111_{b}\longrightarrow3;\qquad9=1001_{b}\longrightarrow2;\qquad\text{máx}=\lceil\lg i\rceil$ 
+\end{itemize}
+\end{itemize}
+\input{codes/bit-query}\vfill
+\begin{itemize}
+\item $O(\lg n)$
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\subsection{Analisando}
+
+
+\lyxframeend{}\lyxframe{Exemplo de construção de uma BIT}
+
+\vspace{-.2cm}
+
+\begin{center} $ t=[0,0,0,0,0,0,0,0] \qquad	\qquad	\textbf{(A.A)}$ \end{center}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{-.4cm}
+
+$$\bordermatrix{
+\text{índice} & \scriptscriptstyle 1 & \scriptscriptstyle 2& \scriptscriptstyle 3& \scriptscriptstyle 4& \scriptscriptstyle 5& \scriptscriptstyle 6& \scriptscriptstyle 7& \scriptscriptstyle 8   \cr
+v_2 \gets 3 \quad \longrightarrow \quad  t     & 0 & \color{red}3 \color{black} & 0 & \color{red} 3 \color{black} & 0 & 0 & 0 & \color{red} 3 \color{black} \cr
+v_3 \gets 2 \quad \longrightarrow \quad t     & 0 & 3 & \color{red} 2 \color{black} & \color{red} 5 \color{black} & 0 & 0 & 0 & \color{red}5\color{black} \cr
+v_5 \gets -1 \quad \longrightarrow \quad t     & 0 & 3 & 2 & 5 & \color{red}-1 \color{black} & \color{red} -1 \color{black} & 0 & \color{red}4\color{black}
+}$$
+
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{-.4cm}
+
+\begin{center}
+	\includegraphics[scale=0.35]{imgs/updating-tree}
+\end{center}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Exemplo de \emph{queries} numa BIT}
+
+%\begin{center} $ v=[0,3,2,0,-1,0,0,0]$ \end{center}
+
+\vspace{-1cm}
+
+\begin{center}
+$$\bordermatrix{
+\text{índice} & \scriptscriptstyle 1 & \scriptscriptstyle 2& \scriptscriptstyle 3& \scriptscriptstyle 4& \scriptscriptstyle 5& \scriptscriptstyle 6& \scriptscriptstyle 7& \scriptscriptstyle 8   \cr
+s     & 0 & 3 & \color{green}5\color{black} & 5 & 4  & \color{red}4\color{black} & 4 & \color{blue}4\color{black} \cr
+t     & 0 & \color{green} 3 \color{black}& \color{green}2 \color{black} & \color{red}5\color{black} & -1  & \color{red}-1\color{black} & 0 & \color{blue}4\color{black}
+}$$
+\end{center}
+
+\begin{itemize}
+	\item $s_6 = t_6+t_4 = -1+5=\color{red}4\color{black}$
+	\item $s_3 = t_3+t_2 = 2+3=\color{green}5\color{black}$
+	\item $s_8=\color{blue}4\color{black}$ \vspace{-.5cm}\begin{flushright} $\textbf{(A.I.)}$ \end{flushright}
+\end{itemize}
+
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{-.4cm}
+
+\begin{center}
+\includegraphics[scale=0.32]{imgs/querying-tree}
+\par\end{center}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Corretude: Por que funciona? }
+
+
+\begin{block}
+{Ideia básica 1:}
+
+\begin{center}
+\textbf{SIMETRIA!}
+\par\end{center}
+\begin{itemize}
+\item A.I e A.A são simétricas e se complementam;
+\item Para fazer um \emph{update}, \textbf{somamos} o 1LSB; e, para fazer
+uma \emph{query,} o\textbf{ subtraímos};
+\end{itemize}
+\end{block}
+
+\pause{}
+\begin{block}
+{Ideia básica 2: compreender a relação entre $s$, $t$ e $v$ $\; \forall i$}
+\begin{itemize}
+\item $t$ é uma interface entre $s$ e $v$
+\item Ver primeiro a A.I.; depois a A.A;
+\item Ex.: $s_{11}\overset{A.I.}{\longrightarrow}t_{11}+t_{10}+t_{8}\overset{A.A.}{\longrightarrow}v_{11}+v_{10...9}+v_{8...1}=v_{11...1}$ 
+\end{itemize}
+
+
+
+\end{block}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Obtendo valor(i)}
+
+\begin{columns}
+  \begin{column}{0.50\textwidth}
+	\vspace{-.4cm}
+	\input{codes/bit-valor.tex}
+	Ex.:
+	\begin{itemize}
+		\item $\textrm{valor}(12) = t_{12} - (t_{11} + t_{10})$
+		\item $\textrm{valor}(8) = t_{8} - (t_{7} + t_{6} + t_{4})$
+	\end{itemize}
+  \end{column}
+	\vrule
+  \begin{column}{0.50\textwidth}
+	\begin{center}
+		\includegraphics[scale=0.38]{imgs/tree-of-partial-frequencies}
+	\end{center}
+  \end{column}
+\end{columns}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Performance / Benchmarking}
+
+$\bullet$ Vale realmente a pena o esforço de estudo -- e implementação -- de BITs?
+\vspace{.3cm}
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+	    \includegraphics[width=.9\textwidth]{graphics/bit-query-time-lines.png}
+	\end{column}
+	\vrule{}
+	\begin{column}{0.5\textwidth}
+		\includegraphics[width=.9\textwidth]{graphics/bit-update-time-lines.png}
+	\end{column}
+\end{columns}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\vspace{.1cm}
+\begin{columns}
+	\begin{column}{0.5\textwidth}
+	    \includegraphics[height=.35\textheight]{graphics/bit-construction-time-lines.png}
+	\end{column}
+	\vrule{}
+	\begin{column}{0.5\textwidth}
+		\begin{itemize}
+			\item \textbf{SIM!}
+			\begin{itemize}
+				\item Implementação em C++
+				\item Entrada: potências de 2
+				\item Índices pseudoaleatórios
+			\end{itemize}
+		\end{itemize}		
+	\end{column}
+\end{columns}
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\subsection{Generalizações}
+
+
+\lyxframeend{}\lyxframe{Generalizações: BIT 2D}
+
+\vfill
+\begin{itemize}
+\item Frequências acumuladas de $v$ em duas dimensões: $n\, x\, m$;
+\item Estender a ideia: definir $t$ zerado, com $n$ x $m$ elementos; 
+\item Operações:
+
+\begin{description}
+\item [{$\text{valor}(a,b)$}] devolve $v_{a,b}$\vfill
+\item [{$\mbox{\text{update}\ensuremath{(a,b,x)}}$}] aplica $v_{a,b}\gets v_{a,b}+x$\vfill
+\item [{$\text{query\ensuremath{(x,y)}}$}] devolve ${\textstyle \sum_{i=1}^{x}\sum_{j=1}^{y}v_{i,j}}$\vfill
+\end{description}
+\item \textbf{Ideia }da implementação: resolver linha a linha \includegraphics[scale=0.45]{graphics/bit2d}
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\lyxframe{Generalizações: BIT 2D}
+
+$\bullet$ $\text{query}(x_{1},y_{1},x_{2},y_{2})$ devolve 
+
+\textcolor{red}{\footnotesize query$(x_{2},y_{2})$ -}\textcolor{blue}{\footnotesize{}
+query$(x_{2},y_{1}-1)$ - query$(x_{1}-1,y_{2})$ +}\textcolor{cyan}{\footnotesize{}
+query$(x_{_{1}}-1,y_{1}-1)$} 
+
+
+
+\[
+\begin{array}{ccccccc}
+v & 1 & \mbox{\ensuremath{\cdots}} & y_{1} & \cdots & y_{2} & \cdots{\scriptstyle m}\\
+1 & {\color{cyan}\blacksquare} & {\color{cyan}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare}\\
+\vdots & {\color{cyan}\blacksquare} & {\color{cyan}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare}\\
+x_{1} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare}\\
+\vdots & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare}\\
+x_{2} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare}\\
+\underset{n}{\vdots}
+\end{array}
+\]
+
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$\bullet$ Complexidade & construção & valor, update, query\tabularnewline
+\hline 
+BIT & $O(n\times\lg n)$ & $O(\lg n)$\tabularnewline
+\hline 
+BIT \textbf{$2\text{D}$} & $O(n\times\lg n\times m\times\lg m)$ & \selectlanguage{english}%
+\textrm{$O(\lg m\times\lg n)$}\selectlanguage{brazil}%
+\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+$\bullet$ Generalizável para dimensões maiores (2D, 3D, ...);
+
+
+\lyxframeend{}
+
+
+\lyxframeend{}\subsection{Aplicações}
+
+
+\lyxframeend{}\lyxframe{Grafos de Trapézio: Ilustrando}
+
+\vspace{-.3cm}
+
+\begin{columns}
+	\begin{column}{0.35\textwidth}
+		\begin{center}
+			\includegraphics[scale=.3]{graphics/trapezoid-1.png}
+		\end{center}
+	\end{column}
+	\vrule{}
+	\begin{column}{0.7\textwidth}
+		\includegraphics[scale=.3]{graphics/trapezoid-2.png}
+	\end{column}
+\end{columns}
+\def\dashfill{\cleaders\hbox{-}\hfill} \hbox to \hsize{\dashfill\hfil}
+\begin{block}
+{Problema}
+\begin{itemize}
+\item Determinar $\kappa(G):$ \textbf{conectividade} dos vértices de $G$
+\item $\kappa(G):$ tamanho mínimo para $V'\quad\mid\quad V'\subset V\text{ e }G\setminus V'$
+é não-conexo
+\end{itemize}
+\end{block}
+
+\begin{itemize}
+\item Complexidade: \textbf{tempo}: $O(n\text{\texttwosuperior})\longrightarrow O(n\lg n);$
+espaço: $O(n)$
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\section{Conclusão}
+
+
+\lyxframeend{}\lyxframe{Conclusão}
+\begin{itemize}
+\item Estrutura de dados \textbf{eficiente }para lidar com frequências acumuladas
+
+\begin{itemize}
+\item complexidade de tempo logarítmica;
+\item complexidade de espaço linear;\vfill
+\end{itemize}
+\end{itemize}
+
+\begin{itemize}
+\item Generalizável \emph{(prefix-sums})$\longrightarrow$ $\times$
+\end{itemize}
+
+\lyxframeend{}
+
+
+\lyxframeend{}\section{Referências}
+
+
+\lyxframeend{}\lyxframe{Referências}
+\begin{enumerate}
+\item G. E. Blelloch, Prefi{}x Sums and Their Applications. \emph{School
+of Computer Science}, Carnegie Mellon University, 1993. In: https://www.cs.cmu.edu/$\sim$guyb/papers/Ble93.pdf
+(Último acesso: 13 de maio de 2013)
+\item \textbf{P. M. Fenwick, A new data structure for cumulative frequency
+tables. }\textbf{\emph{Software: Practice and Experience}}\textbf{
+Vol. 24, pp. 327-336, 1994.}
+\item S. Halim e F. Halim, \textquotedblleft{}Competitive Programming 2:
+this increases the lower bound of programming contests. Again\textquotedblright{}.
+Lulu.com, 2a edição, pp. 35-37, 2012.
+\item A. Ili\'{c}, Efficient algorithm for the vertex connectivity of trapezoid
+graphs. \emph{Information Processing Letters}, Vol. 113, pp. 398-404,
+2013.
+\end{enumerate}
+
+\lyxframeend{}
+
+
+\end{document}

@@ -1,0 +1,4446 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass beamer
+\begin_preamble
+\usepackage[english, brazil]{babel}
+\usepackage{pgf}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{algorithmicx, algorithm2e}
+\usepackage{algpseudocode,algorithm}
+\everymath{\displaystyle}
+\mode<presentation> {
+  \usetheme{CambridgeUS}
+  \usecolortheme[named=darkgray]{structure}
+  \setbeamercolor*{palette primary}{use=structure,fg=lightgray,bg=gray}
+  \setbeamercolor*{palette secondary}{use=structure,fg=lightgray,bg=gray}
+  \setbeamercolor*{palette tertiary}{use=structure,fg=lightgray,bg=darkgray}
+  \setbeamercovered{transparent}
+}
+\setbeamertemplate{navigation symbols}{} %remove navigation symbols
+\setbeamertemplate{footline}[page number]
+\beamerdefaultoverlayspecification{<+->}
+
+% http://latexbr.blogspot.com.br/2013/01/pseudo-codigo-no-latex-em-portugues.html
+% Declaracoes em Português
+\algrenewcommand\algorithmicend{\textbf{fim}}
+\algrenewcommand\algorithmicdo{\textbf{faça}}
+\algrenewcommand\algorithmicwhile{\textbf{enquanto}}
+\algrenewcommand\algorithmicfor{\textbf{para}}
+\algrenewcommand\algorithmicif{\textbf{se}}
+\algrenewcommand\algorithmicthen{\textbf{então}}
+\algrenewcommand\algorithmicelse{\textbf{senão}}
+\algrenewcommand\algorithmicreturn{\textbf{devolve}}
+\algrenewcommand\algorithmicfunction{\textbf{função}}
+
+% Rearranja os finais de cada estrutura
+\algrenewtext{EndWhile}{\algorithmicend\ \algorithmicwhile}
+\algrenewtext{EndFor}{\algorithmicend\ \algorithmicfor}
+\algrenewtext{EndIf}{\algorithmicend\ \algorithmicif}
+\algrenewtext{EndFunction}{\algorithmicend\ \algorithmicfunction}
+
+% O comando For, a seguir, retorna 'para #1 -- #2 até #3 faça'
+\algnewcommand\algorithmicto{\textbf{até}}
+\algrenewtext{For}[3]%
+{\algorithmicfor\ #1 $\gets$ #2 \algorithmicto\ #3 \algorithmicdo}
+
+%http://tex.stackexchange.com/questions/1375/what-is-a-good-package-for-displaying-algorithms/1376#1376
+% http://tex.stackexchange.com/questions/30363/how-do-i-define-a-new-command-in-algorithmicx
+\algnewcommand\algorithmicinput{\textbf{INPUT:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language brazilian
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Árvores de Fenwick: Algoritmos e Aplicações
+\end_layout
+
+\begin_layout Author
+
+\series bold
+Thiago Barroso Perrotta
+\series default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+Prof.ª Márcia R.
+ Cerioli
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Institute
+Universidade Federal do Rio de Janeiro
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+Bolsa PICME (CNPq / OBMEP) 
+\backslash
+
+\backslash
+[20pt] XXXV Jornada Giulio Massarani de Iniciação Científica, Tecnológica,
+ Artística e Cultural 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout TitleGraphic
+\begin_inset Graphics
+	filename imgs/ufrj.gif
+	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Date
+30 de setembro de 2013
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Bons Temas: Antibes, CambridgeUS, Warsaw, Madrid
+\end_layout
+
+\begin_layout Plain Layout
+Cor dos temas: https://wiki.bath.ac.uk/display/latextricks/Change+the+colour+of+Bea
+mer+slides
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+usecolortheme[named=xxx]{structure}, where xxx is one of the following:
+\end_layout
+
+\begin_layout Plain Layout
+red green blue cyan magenta yellow black darkgray gray lightgray orange
+ violet purple brown 
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+usepackage[aspectratio=54]{beamer}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Frequências acumuladas
+\end_layout
+
+\begin_layout Subsection
+Conceituando
+\end_layout
+
+\begin_layout BeginFrame
+Problema: somas acumuladas
+\end_layout
+
+\begin_layout Itemize
+Dado 
+\begin_inset Formula $v=[v_{1},v_{2},\ldots,v_{n}]$
+\end_inset
+
+ vetor de 
+\begin_inset Formula $n$
+\end_inset
+
+ elementos, definimos
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s_{j}=\sum_{j=1}^{i}v_{j}\quad1\le i\leq n$
+\end_inset
+
+, vetor de somas acumuladas associado a 
+\begin_inset Formula $v$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Operações}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+valor
+\begin_inset Formula $(i)$
+\end_inset
+
+ devolve 
+\begin_inset Formula $v_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Description
+query
+\begin_inset Formula $(i)$
+\end_inset
+
+ devolve a frequência acumulada 
+\begin_inset Formula $s_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Description
+update
+\begin_inset Formula $(i,x)$
+\end_inset
+
+ muda o 
+\emph on
+i-ésimo
+\emph default
+ elemento de 
+\begin_inset Formula $v$
+\end_inset
+
+: 
+\begin_inset Formula $\; v_{i}\gets v_{i}+x$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Pause
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $\begin{array}{cccc}
+v_{a}=[{\color{blue}1,2,3,\phantom{1}4},\phantom{1}5] &  &  & v_{b}=[{\color{blue}{\color{magenta}{\color{blue}8,\phantom{1}2,-3,\phantom{1}4,\phantom{1}5}}},\phantom{1}1,-1,\phantom{1}0]\\
+s_{a}=[1,3,6,{\color{red}10},15] &  &  & s_{b}=[8,10,\phantom{-}7,11,{\color{red}16},17,16,16]\\
+\downarrow &  &  & \downarrow\\
+\text{valor}(4)=4 &  &  & \mbox{original\ensuremath{(5)=5}}\\
+\text{query}(4)=10 &  &  & \text{query}(5)=16\\
+\text{update\ensuremath{(4,3)=\not4\rightarrow7}} &  &  & \mbox{\text{update\ensuremath{(5,-2):\not5\rightarrow3}}}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Template bordermatrix:
+\end_layout
+
+\begin_layout Plain Layout
+$$
+\backslash
+bordermatrix{
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+text{corner}&c_1&c_2&
+\backslash
+ldots &c_n
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+r_1&a_{11} & 0 & 
+\backslash
+ldots & a_{1n}
+\backslash
+cr 
+\end_layout
+
+\begin_layout Plain Layout
+r_4& 0 & 0 &
+\backslash
+ldots & a_{nn}}$$
+\end_layout
+
+\begin_layout Plain Layout
+.
+\end_layout
+
+\begin_layout Plain Layout
+-----------------------------------------
+\end_layout
+
+\begin_layout Plain Layout
+.
+\end_layout
+
+\begin_layout Plain Layout
+Template2 bordermatrix vetor:
+\end_layout
+
+\begin_layout Plain Layout
+$$
+\backslash
+bordermatrix{
+\end_layout
+
+\begin_layout Plain Layout
+index & 1 & 2 & 3 & 4 & 5 & 6 & 7 
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+v_c & 8 & 2 & -3 & 4 & 5 & 1 & -1
+\end_layout
+
+\begin_layout Plain Layout
+}$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Implementando
+\end_layout
+
+\begin_layout BeginFrame
+Soluções Ingênuas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Template para C++
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+lstinputlisting[language=C++,breaklines,basicstyle=
+\backslash
+scriptsize,keywordstyle=
+\backslash
+color{red}]{codes/implementation-u.cpp}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+bullet$ Solução ingênua $
+\backslash
+#1:$ guardar $v$ 
+\backslash
+qquad $v=[
+\backslash
+color{red}v_1,v_2,
+\backslash
+ldots,v_i
+\backslash
+color{black},v_{i+1},
+\backslash
+ldots,v_n]$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.3cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}[T]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+     
+\backslash
+input{codes/guardar-v-update.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+vrule{}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+input{codes/guardar-v-query.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+pause
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.2cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.2cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+$
+\backslash
+bullet$ Solução ingênua $
+\backslash
+#2:$ guardar $s$ 
+\backslash
+qquad $s=[s_1,s_2,
+\backslash
+ldots,
+\backslash
+color{red}s_i,s_{i+1},
+\backslash
+ldots,s_n 
+\backslash
+color{black} ]$  
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.3cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}[T]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\backslash
+input{codes/guardar-s-query.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+vrule{}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+     
+\backslash
+input{codes/guardar-s-update.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Eficiência
+\end_layout
+
+\begin_layout Itemize
+Complexidade
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+construção
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+valor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+query
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Solução Ingênua #1 (guardar 
+\begin_inset Formula $v$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(1)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(1)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Formula $O(n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Solução Ingênua #2 (guardar 
+\begin_inset Formula $s$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(1)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\color red
+\begin_inset Formula $O(n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(1)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Em geral: 
+\color red
+
+\begin_inset Formula $O(n)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+E se precisarmos ser 
+\series bold
+mais
+\series default
+ eficientes?
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/hour-glass.jpg
+	scale 22
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Árvores de Fenwick
+\end_layout
+
+\begin_layout Subsection
+Conceituando
+\end_layout
+
+\begin_layout BeginFrame
+Árvores de Fenwick!
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.75
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+item Mais conhecidas por 
+\backslash
+textbf{Binary Indexed Tree (BIT);}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+item Propostas por Peter M.
+ Fenwick em 1994;
+\end_layout
+
+\begin_layout Plain Layout
+
+		%
+\backslash
+item University of Auckland / New Zealand.
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+begin{tabular}{|c|c|c|c|c|}
+\end_layout
+
+\begin_layout Plain Layout
+
+					
+\backslash
+hline 
+\end_layout
+
+\begin_layout Plain Layout
+
+					 & construção & update & query & valor
+\backslash
+tabularnewline
+\end_layout
+
+\begin_layout Plain Layout
+
+					
+\backslash
+hline 
+\end_layout
+
+\begin_layout Plain Layout
+
+					BIT & $O(n 
+\backslash
+times 
+\backslash
+lg n)$ & $
+\backslash
+color{blue} O(
+\backslash
+lg n)$ & $
+\backslash
+color{blue} O(
+\backslash
+lg n)$ & $
+\backslash
+color{blue} O(
+\backslash
+lg n)$
+\backslash
+tabularnewline
+\end_layout
+
+\begin_layout Plain Layout
+
+					
+\backslash
+hline 
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+end{tabular}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+par
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.25
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+includegraphics[scale=0.7]{imgs/fenwick}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+Mais conhecidas por 
+\series bold
+Binary Indexed Tree (BIT);
+\end_layout
+
+\begin_layout Itemize
+Estudada por Peter M.
+ Fenwick em 1994;
+\end_layout
+
+\begin_layout Itemize
+University of Auckland / New Zealand.
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+construção
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+update
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+query
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+valor
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BIT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(n\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Estrutura de Dados}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Vetor de 
+\begin_inset Formula $n$
+\end_inset
+
+ elementos, inicialmente zerado 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $t=\underbrace{[0,0,\mbox{}\ldots\mbox{},0]}_{n\text{ zeros}}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+
+\lang english
+Convenção: 
+\begin_inset Formula $t_{0}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Representação binária dos índices
+\end_layout
+
+\end_deeper
+\begin_layout BeginFrame
+Ideia principal
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula $\bullet$
+\end_inset
+
+ Ideia:
+\series default
+\emph on
+ 
+\emph default
+cada índice torna-se responsável por um conjunto de outros índices 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-1cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Graphics
+	filename graphics/bit-trees.svg
+	scale 32
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Árvore de Atualização (A.A.)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+textwidth,height=0.8
+\backslash
+textheight,keepaspectratio]{graphics/updating-tree-example}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Relaciona 
+\begin_inset Formula $t_{i}'s$
+\end_inset
+
+ e 
+\begin_inset Formula $v_{i}'s$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $t_{i}=v_{i}+\sum_{\forall j\text{ descend. de \ensuremath{i}}}v_{j}\longleftrightarrow$
+\end_inset
+
+ soma dos elementos da subárvore de 
+\begin_inset Formula $i$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+Exemplo: 
+\begin_inset Formula $t_{12}=v_{12}+v_{11}+v_{10}+v_{9}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.40
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+input{codes/bit-update.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.60
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	Subir na árvore = ir deslocando os 1s menos significativos para a esquerda
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+item $9=1001b
+\backslash
+rightarrow1010b
+\backslash
+rightarrow1100b
+\backslash
+rightarrow10000b=16$
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+item $2=10b
+\backslash
+rightarrow100b
+\backslash
+rightarrow1000b
+\backslash
+rightarrow
+\backslash
+text{
+\backslash
+text{potências de 2...}}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Árvore de Atualização: Propriedades
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+textwidth,height=0.8
+\backslash
+textheight,keepaspectratio]{imgs/updating-tree}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Pai de 
+\begin_inset Formula $i:$
+\end_inset
+
+ deslocar o 
+\color blue
+1
+\color inherit
+ menos significativo (
+\series bold
+1LSB
+\series default
+) para a esquerda;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ex.: 
+\begin_inset Formula $9=100{\color{blue}1_{b}}\rightarrow10=10{\color{blue}1}0_{b}\rightarrow12=1{\color{blue}1}00_{b}\rightarrow16={\color{blue}1}0000_{b}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Filhos de 
+\begin_inset Formula $i$
+\end_inset
+
+: 
+\series bold
+retirar
+\series default
+ o 1LSB; transformar em 1 os zeros à direita dele.
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+gerar os inteiros positivos a partir dos zeros à direita dele.
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ex.: 
+\begin_inset Formula $\begin{array}{rcl}
+12=1{\color{blue}1}00_{b} & \longrightarrow & \{9=10{\color{magenta}01}_{b},10=10{\color{magenta}10}_{b},11=10{\color{magenta}11}_{b}\}\end{array}$
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{rcl}
+12=1{\color{blue}1}00_{b} & \longrightarrow & \{9=10{\color{magenta}01}_{b},10=10{\color{magenta}10}_{b},11=10{\color{magenta}11}_{b}\}\\
+4={\color{blue}1}00_{b} & \longrightarrow & \{1=0{\color{magenta}01}_{b},2=0{\color{magenta}10}_{b},3=0{\color{magenta}11}_{b}\}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Árvore de Atualização: Implementação
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\bullet$
+\end_inset
+
+ Note: 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $100{\color{blue}1}_{b}\longrightarrow10{\color{blue}1}0_{b}\longrightarrow1{\color{blue}1}00_{b}\longrightarrow{\color{blue}1}0000_{b}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $100{\color{red}1}_{b}+000{\color{red}1}_{b}=10{\color{red}{\color{magenta}{\color{red}1}}}0_{b};$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $10{\color{red}1}0_{b}+00{\color{red}1}0_{b}=1{\color{red}{\color{red}1}}00_{b};$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $1{\color{red}1}00_{b}+0{\color{red}1}00_{b}={\color{magenta}{\color{red}1}}0000_{b}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{codes/bit-update}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $O(\lg n)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Isolando o 1LSB
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Ideia}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{rcl}
+x & = & m1\overset{*}{0}b\\
+\overline{x} & = & \overline{m}0\overset{*}{1}b\\
+\overline{x}+1 & = & \overline{m}1\overset{*}{0}b\\
+x\,\&\,(\overline{x}+1) & = & \overset{*}{0}1\overset{*}{0}b
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+hspace{0.05
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.33
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+begin{block}{Ideia}
+\end_layout
+
+\begin_layout Plain Layout
+
+			$
+\backslash
+begin{array}{rcl}
+\end_layout
+
+\begin_layout Plain Layout
+
+				x & = & m1
+\backslash
+overset{*}{0}b
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+overline{x} & = & 
+\backslash
+overline{m}0
+\backslash
+overset{*}{1}b
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+				-x=
+\backslash
+overline{x}+1 & = & 
+\backslash
+overline{m}1
+\backslash
+overset{*}{0}b
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+				x
+\backslash
+,
+\backslash
+&
+\backslash
+,-x & = & 
+\backslash
+phantom{.}
+\backslash
+overset{*}{0}1
+\backslash
+overset{*}{0}b
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+end{array}$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+end{block} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+hspace{0.05
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.66
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+includegraphics[width=0.91
+\backslash
+textwidth]{imgs/querying-tree.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Convenções}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Formula $\overline{x}=\textrm{NOT}(x)$
+\end_inset
+
+;
+\begin_inset Formula $\qquad$
+\end_inset
+
+ 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $-x=\overline{x}+1$
+\end_inset
+
+;
+\begin_inset Formula $\qquad$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang brazilian
+
+\begin_inset Formula $\ast$
+\end_inset
+
+ denota repetição
+\end_layout
+
+\end_deeper
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Ideia}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{rcl}
+x & = & m\,\,1\,\,0^{*}\,\,_{b}\blacktriangleleft\\
+\overline{x} & = & \overline{m}\,\,0\,\,1^{*}\,\,_{b}\\
+\overline{x}+1 & = & \overline{m}\,\,1\,\,0^{*}\,\,_{b}\blacktriangleleft\\
+x\,\&\,-x & = & 0^{*}\,1\,\,0^{*}\,\,_{b}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Pause
+
+\end_layout
+
+\begin_layout ExampleBlock
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Um exemplo}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Formula $\begin{array}{rcl}
+x=50: &  & 1\,\,1\,\,0\,\,0\,\,{\color{blue}1}\,\,0\,\,_{b}\\
+\overline{x}+1=14: &  & 0\,\,0\,\,1\,\,1\,\,{\color{blue}1}\,\,0\,\,_{b}\\
+x\,\&\,-x=2: & = & 0\,\,0\,\,0\,\,0\,\,{\color{blue}1}\,\,0\,\,_{b}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Ideia principal
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula $\bullet$
+\end_inset
+
+ Ideia:
+\series default
+\emph on
+ 
+\emph default
+cada índice torna-se responsável por um conjunto de outros índices 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-1cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Graphics
+	filename graphics/bit-trees.svg
+	scale 32
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Árvore de Interrogação (A.I.)
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+textwidth,height=0.8
+\backslash
+textheight,keepaspectratio]{graphics/querying-tree-example}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Relaciona 
+\begin_inset Formula $t_{i}'s$
+\end_inset
+
+ e 
+\begin_inset Formula $s_{i}'s$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $s_{i}=t_{i}+\sum_{\forall j\text{ ancestral de }i}t_{j}\longleftrightarrow$
+\end_inset
+
+ soma dos elementos de 
+\begin_inset Formula $i$
+\end_inset
+
+ até a raiz;
+\end_layout
+
+\begin_layout Itemize
+Exemplo: 
+\begin_inset Formula $s_{7}=t_{7}+t_{6}+t_{4}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+color{gray}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\,+\,\not t_{0}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+color{black}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Árvore de Interrogação: Propriedades
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+includegraphics[width=
+\backslash
+textwidth,height=0.8
+\backslash
+textheight,keepaspectratio]{imgs/querying-tree}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Pai de 
+\begin_inset Formula $i$
+\end_inset
+
+: retirar o 1LSB;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ex.: 
+\begin_inset Formula $7=11{\color{blue}1}_{b}\rightarrow6=1{\color{blue}1}0_{b}\rightarrow4={\color{blue}1}00_{b}\rightarrow0=000_{b}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Filho de 
+\begin_inset Formula $i$
+\end_inset
+
+: transformar em 1 os zeros à direita do 1LSB.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{rcl}
+4={\color{blue}1}|00b & \longrightarrow & \{15={\color{magenta}01}b,6=1{\color{magenta}10}b,7=1{\color{magenta}11}b\}\\
+6=1{\color{blue}1}|0b & \longrightarrow & \{7=11{\color{magenta}1}b\}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\begin{array}{rcl}
+4={\color{blue}1}00_{b} & \longrightarrow & \{5=1{\color{magenta}01}_{b},6=1{\color{magenta}10}_{b},7=1{\color{magenta}11}_{b}\}\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Árvore de Interrogação: Implementação
+\end_layout
+
+\begin_layout Itemize
+Altura de 
+\begin_inset Formula $i$
+\end_inset
+
+ = 
+\begin_inset Formula $\#$
+\end_inset
+
+ de 
+\begin_inset Formula $1's$
+\end_inset
+
+ na representação binária de 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Ex.:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $7=111_{b}\longrightarrow3;\qquad9=1001_{b}\longrightarrow2;\qquad\text{máx}=\lceil\lg i\rceil$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+input{codes/bit-query}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $O(\lg n)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Analisando
+\end_layout
+
+\begin_layout BeginFrame
+Exemplo de construção de uma BIT
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.2cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center} $ t=[0,0,0,0,0,0,0,0] 
+\backslash
+qquad	
+\backslash
+qquad	
+\backslash
+textbf{(A.A)}$ 
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+bordermatrix{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+text{índice} & 
+\backslash
+scriptscriptstyle 1 & 
+\backslash
+scriptscriptstyle 2& 
+\backslash
+scriptscriptstyle 3& 
+\backslash
+scriptscriptstyle 4& 
+\backslash
+scriptscriptstyle 5& 
+\backslash
+scriptscriptstyle 6& 
+\backslash
+scriptscriptstyle 7& 
+\backslash
+scriptscriptstyle 8   
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+
+v_2 
+\backslash
+gets 3 
+\backslash
+quad 
+\backslash
+longrightarrow 
+\backslash
+quad  t     & 0 & 
+\backslash
+color{red}3 
+\backslash
+color{black} & 0 & 
+\backslash
+color{red} 3 
+\backslash
+color{black} & 0 & 0 & 0 & 
+\backslash
+color{red} 3 
+\backslash
+color{black} 
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+
+v_3 
+\backslash
+gets 2 
+\backslash
+quad 
+\backslash
+longrightarrow 
+\backslash
+quad t     & 0 & 3 & 
+\backslash
+color{red} 2 
+\backslash
+color{black} & 
+\backslash
+color{red} 5 
+\backslash
+color{black} & 0 & 0 & 0 & 
+\backslash
+color{red}5
+\backslash
+color{black} 
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+
+v_5 
+\backslash
+gets -1 
+\backslash
+quad 
+\backslash
+longrightarrow 
+\backslash
+quad t     & 0 & 3 & 2 & 5 & 
+\backslash
+color{red}-1 
+\backslash
+color{black} & 
+\backslash
+color{red} -1 
+\backslash
+color{black} & 0 & 
+\backslash
+color{red}4
+\backslash
+color{black}
+\end_layout
+
+\begin_layout Plain Layout
+
+}$$
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+includegraphics[scale=0.35]{imgs/updating-tree}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Exemplo de 
+\emph on
+queries
+\emph default
+ numa BIT
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+begin{center} $ v=[0,3,2,0,-1,0,0,0]$ 
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-1cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+$$
+\backslash
+bordermatrix{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+text{índice} & 
+\backslash
+scriptscriptstyle 1 & 
+\backslash
+scriptscriptstyle 2& 
+\backslash
+scriptscriptstyle 3& 
+\backslash
+scriptscriptstyle 4& 
+\backslash
+scriptscriptstyle 5& 
+\backslash
+scriptscriptstyle 6& 
+\backslash
+scriptscriptstyle 7& 
+\backslash
+scriptscriptstyle 8   
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+
+s     & 0 & 3 & 
+\backslash
+color{green}5
+\backslash
+color{black} & 5 & 4  & 
+\backslash
+color{red}4
+\backslash
+color{black} & 4 & 
+\backslash
+color{blue}4
+\backslash
+color{black} 
+\backslash
+cr
+\end_layout
+
+\begin_layout Plain Layout
+
+t     & 0 & 
+\backslash
+color{green} 3 
+\backslash
+color{black}& 
+\backslash
+color{green}2 
+\backslash
+color{black} & 
+\backslash
+color{red}5
+\backslash
+color{black} & -1  & 
+\backslash
+color{red}-1
+\backslash
+color{black} & 0 & 
+\backslash
+color{blue}4
+\backslash
+color{black}
+\end_layout
+
+\begin_layout Plain Layout
+
+}$$
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+item $s_6 = t_6+t_4 = -1+5=
+\backslash
+color{red}4
+\backslash
+color{black}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+item $s_3 = t_3+t_2 = 2+3=
+\backslash
+color{green}5
+\backslash
+color{black}$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+item $s_8=
+\backslash
+color{blue}4
+\backslash
+color{black}$ 
+\backslash
+vspace{-.5cm}
+\backslash
+begin{flushright} $
+\backslash
+textbf{(A.I.)}$ 
+\backslash
+end{flushright}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/querying-tree.png
+	scale 32
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Corretude: Por que funciona? 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Um elemento correspondente pode ser obtido a partir do outro como complemento
+ a 16;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Ideia básica 1:}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+
+\series bold
+SIMETRIA!
+\end_layout
+
+\begin_layout Itemize
+A.I e A.A são simétricas e se complementam;
+\end_layout
+
+\begin_layout Itemize
+Para fazer um 
+\emph on
+update
+\emph default
+, 
+\series bold
+somamos
+\series default
+ o 1LSB; e, para fazer uma 
+\emph on
+query,
+\emph default
+ o
+\series bold
+ subtraímos
+\series default
+;
+\end_layout
+
+\end_deeper
+\begin_layout Pause
+
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Ideia básica 2: compreender a relação entre $s$, $t$ e $v$ $
+\backslash
+; 
+\backslash
+forall i$}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $t$
+\end_inset
+
+ é uma interface entre 
+\begin_inset Formula $s$
+\end_inset
+
+ e 
+\begin_inset Formula $v$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ver primeiro a A.I.; depois a A.A;
+\end_layout
+
+\begin_layout Itemize
+Ex.: 
+\begin_inset Formula $s_{11}\overset{A.I.}{\longrightarrow}t_{11}+t_{10}+t_{8}\overset{A.A.}{\longrightarrow}v_{11}+v_{10...9}+v_{8...1}=v_{11...1}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $s_{13}=t_{13}+t_{12}+t_{8}=v_{13}+v_{12...9}+v_{8...1}=v_{13...1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Obtendo valor(i)
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.50
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+vspace{-.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+input{codes/bit-valor.tex}
+\end_layout
+
+\begin_layout Plain Layout
+
+	Ex.:
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+item $
+\backslash
+textrm{valor}(12) = t_{12} - (t_{11} + t_{10})$
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+item $
+\backslash
+textrm{valor}(8) = t_{8} - (t_{7} + t_{6} + t_{4})$
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+vrule
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+begin{column}{0.50
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+includegraphics[scale=0.38]{imgs/tree-of-partial-frequencies}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Performance / Benchmarking
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+bullet$ Vale realmente a pena o esforço de estudo -- e implementação --
+ de BITs?
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.3cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	    
+\backslash
+includegraphics[width=.9
+\backslash
+textwidth]{graphics/bit-query-time-lines.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+vrule{}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+includegraphics[width=.9
+\backslash
+textwidth]{graphics/bit-update-time-lines.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{.1cm}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+	    
+\backslash
+includegraphics[height=.35
+\backslash
+textheight]{graphics/bit-construction-time-lines.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+vrule{}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.5
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+item 
+\backslash
+textbf{SIM!}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+item Implementação em C++
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+item Entrada: potências de 2
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+item Índices pseudoaleatórios
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+end{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+end{itemize}		
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Generalizações
+\end_layout
+
+\begin_layout BeginFrame
+Generalizações: BIT 2D
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Frequências acumuladas de 
+\begin_inset Formula $v$
+\end_inset
+
+ em duas dimensões: 
+\begin_inset Formula $n\, x\, m$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+Estender a ideia: definir 
+\begin_inset Formula $t$
+\end_inset
+
+ zerado, com 
+\begin_inset Formula $n$
+\end_inset
+
+ x 
+\begin_inset Formula $m$
+\end_inset
+
+ elementos; 
+\end_layout
+
+\begin_layout Itemize
+Operações:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+\begin_inset Formula $\text{valor}(a,b)$
+\end_inset
+
+ devolve 
+\begin_inset Formula $v_{a,b}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\begin_inset Formula $\mbox{\text{update}\ensuremath{(a,b,x)}}$
+\end_inset
+
+ aplica 
+\begin_inset Formula $v_{a,b}\gets v_{a,b}+x$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\begin_inset Formula $\text{query\ensuremath{(x,y)}}$
+\end_inset
+
+ devolve 
+\begin_inset Formula ${\textstyle \sum_{i=1}^{x}\sum_{j=1}^{y}v_{i,j}}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Ideia 
+\series default
+da implementação: resolver linha a linha 
+\begin_inset Graphics
+	filename graphics/bit2d.png
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Generalizações: BIT 2D
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\bullet$
+\end_inset
+
+ 
+\begin_inset Formula $\text{query}(x_{1},y_{1},x_{2},y_{2})$
+\end_inset
+
+ devolve 
+\end_layout
+
+\begin_layout Standard
+
+\size footnotesize
+\color red
+query
+\begin_inset Formula $(x_{2},y_{2})$
+\end_inset
+
+ -
+\color blue
+ query
+\begin_inset Formula $(x_{2},y_{1}-1)$
+\end_inset
+
+ - query
+\begin_inset Formula $(x_{1}-1,y_{2})$
+\end_inset
+
+ +
+\color cyan
+ query
+\begin_inset Formula $(x_{_{1}}-1,y_{1}-1)$
+\end_inset
+
+
+\size default
+\color inherit
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+ 
+\begin_inset Formula ${\scriptstyle {\textstyle {\color{red}\sum_{i=1}^{x_{2}}\sum_{j=1}^{y_{2}}v_{i,j}}-\left(\sum_{i=1}^{x_{1}-1}\sum_{j=1}^{y_{2}}v_{i,j}+\sum_{i=1}^{x_{2}}\sum_{j=1}^{y_{1}-1}v_{i,j}\right)+{\color{magenta}\sum_{i=1}^{x_{1}-1}\sum_{j=1}^{y_{1}-1}v_{i,j}}}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{ccccccc}
+v & 1 & \mbox{\cdots} & y_{1} & \cdots & y_{2} & \cdots{\scriptstyle m}\\
+1 & {\color{cyan}\blacksquare} & {\color{cyan}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare}\\
+\vdots & {\color{cyan}\blacksquare} & {\color{cyan}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare}\\
+x_{1} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare}\\
+\vdots & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare}\\
+x_{2} & {\color{blue}\blacksquare} & {\color{blue}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare} & {\color{red}\blacksquare}\\
+\underset{n}{\vdots}
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\bullet$
+\end_inset
+
+ Complexidade
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+construção
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+valor, update, query
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BIT
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(n\times\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BIT 
+\series bold
+
+\begin_inset Formula $2\text{D}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $O(n\times\lg n\times m\times\lg m)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+\begin_inset Formula $O(\lg m\times\lg n)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\bullet$
+\end_inset
+
+ Generalizável para dimensões maiores (2D, 3D, ...);
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Subsection
+Aplicações
+\end_layout
+
+\begin_layout BeginFrame
+Grafos de Trapézio: Ilustrando
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{-.3cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.35
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\backslash
+includegraphics[scale=.3]{graphics/trapezoid-1.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+end{center}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+vrule{}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+begin{column}{0.7
+\backslash
+textwidth}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+includegraphics[scale=.3]{graphics/trapezoid-2.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\backslash
+end{column}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{columns}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+def
+\backslash
+dashfill{
+\backslash
+cleaders
+\backslash
+hbox{-}
+\backslash
+hfill} 
+\backslash
+hbox to 
+\backslash
+hsize{
+\backslash
+dashfill
+\backslash
+hfil}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Problema}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Determinar 
+\begin_inset Formula $\kappa(G):$
+\end_inset
+
+ 
+\series bold
+conectividade
+\series default
+ dos vértices de 
+\begin_inset Formula $G$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\kappa(G):$
+\end_inset
+
+ tamanho mínimo para 
+\begin_inset Formula $V'\quad\mid\quad V'\subset V\text{ e }G\setminus V'$
+\end_inset
+
+ é não-conexo
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Formula $-\qquad\times\qquad\oplus\qquad$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{AND}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Implementar algoritmos de ordenação: 
+\emph on
+quicksort
+\emph default
+, 
+\emph on
+radixsort
+\emph default
+;
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Procurar expressões regulares (ex.: 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{grep}
+\end_layout
+
+\end_inset
+
+ do GNU/Linux);
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Resolver recorrências
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Complexidade: 
+\series bold
+tempo
+\series default
+: 
+\begin_inset Formula $O(n\text{²})\longrightarrow O(n\lg n);$
+\end_inset
+
+ espaço: 
+\begin_inset Formula $O(n)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Conclusão
+\end_layout
+
+\begin_layout BeginFrame
+Conclusão
+\end_layout
+
+\begin_layout Itemize
+Estrutura de dados 
+\series bold
+eficiente 
+\series default
+para lidar com frequências acumuladas
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+complexidade de tempo logarítmica;
+\end_layout
+
+\begin_layout Itemize
+complexidade de espaço linear;
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+Diversas aplicações
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Contar o número de inversões de uma sequência não-ordenada;
+\end_layout
+
+\begin_layout Itemize
+Codificação aritmética;
+\end_layout
+
+\begin_layout Itemize
+Radix sort
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vfill
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Generalizável 
+\emph on
+(prefix-sums
+\emph default
+)
+\begin_inset Formula $\longrightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $\times$
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Referências
+\end_layout
+
+\begin_layout BeginFrame
+Referências
+\end_layout
+
+\begin_layout Enumerate
+G.
+ E.
+ Blelloch, Preﬁx Sums and Their Applications.
+ 
+\emph on
+School of Computer Science
+\emph default
+, Carnegie Mellon University, 1993.
+ In: https://www.cs.cmu.edu/
+\begin_inset Formula $\sim$
+\end_inset
+
+guyb/papers/Ble93.pdf (Último acesso: 13 de maio de 2013)
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+P.
+ M.
+ Fenwick, A new data structure for cumulative frequency tables.
+ 
+\emph on
+Software: Practice and Experience
+\emph default
+ Vol.
+ 24, pp.
+ 327-336, 1994.
+\end_layout
+
+\begin_layout Enumerate
+S.
+ Halim e F.
+ Halim, “Competitive Programming 2: this increases the lower bound of programmin
+g contests.
+ Again”.
+ Lulu.com, 2a edição, pp.
+ 35-37, 2012.
+\end_layout
+
+\begin_layout Enumerate
+A.
+ Ilić, Efficient algorithm for the vertex connectivity of trapezoid graphs.
+ 
+\emph on
+Information Processing Letters
+\emph default
+, Vol.
+ 113, pp.
+ 398-404, 2013.
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Itemize
+lazy propagation
+\end_layout
+
+\begin_layout Itemize
+arithmetic coding
+\end_layout
+
+\begin_layout Itemize
+conectividade de grafos de trapézio
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
