@@ -138,7 +138,11 @@ XXXVI Jornada Giulio Massarani de Iniciação Científica, Tecnológica, Artíst
 status collapsed
 
 \begin_layout Plain Layout
-Bons Temas: Antibes, CambridgeUS, Warsaw, Madrid
+Bons Temas: Antibes, 
+\series bold
+CambridgeUS
+\series default
+, Warsaw, Madrid
 \end_layout
 
 \begin_layout Plain Layout
@@ -190,19 +194,27 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-Raytracer
+Ray-tracing
 \end_layout
 
 \begin_layout BeginFrame
-Conceituando
+O quê?
 \end_layout
 
 \begin_layout Itemize
 Renderizar imagens
 \end_layout
 
+\begin_layout Itemize
+Realismo
+\end_layout
+
 \begin_layout EndFrame
 
+\end_layout
+
+\begin_layout Subsection
+O algoritmo
 \end_layout
 
 \begin_layout BeginFrame
@@ -217,7 +229,7 @@ status open
 
 \end_inset
 
-Algoritmo
+O algoritmo
 \end_layout
 
 \begin_layout Itemize
@@ -273,7 +285,7 @@ status open
 
 \end_inset
 
-Define uma janela cuja superfície seja coberta com pixels
+Defina uma janela cuja superfície seja coberta com pixels
 \end_layout
 
 \begin_layout Itemize
@@ -530,6 +542,70 @@ Objetos
 Triângulos
 \end_layout
 
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/triangles.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/triangle.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -542,7 +618,109 @@ Objetos
 Toros
 \end_layout
 
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/torus.png
+	width 50page%
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Objetos
+\end_layout
+
+\begin_layout FrameSubtitle
+Cilindros
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/opencylinder.png
+	width 45page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Objetos
+\end_layout
+
+\begin_layout FrameSubtitle
+Planos
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/planes.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/plane.png
+	width 100col%
+
+\end_inset
+
 
 \end_layout
 
@@ -554,10 +732,42 @@ Toros
 Materiais
 \end_layout
 
-\begin_layout Standard
-Materiais
+\begin_layout Itemize
+Definem o tipo de iluminação
 \end_layout
 
+\begin_layout Itemize
+Modelo Whitted
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Iluminações}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ambiente
+\end_layout
+
+\begin_layout Itemize
+Difusa
+\end_layout
+
+\begin_layout Itemize
+Refletiva
+\end_layout
+
+\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -572,6 +782,14 @@ Fontes de luz
 
 \begin_layout Standard
 Fontes de luz
+\end_layout
+
+\begin_layout Itemize
+Direcional
+\end_layout
+
+\begin_layout Itemize
+Pontual
 \end_layout
 
 \begin_layout EndFrame
@@ -663,8 +881,8 @@ para cada objeto
 Cores
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Itemize
+RGB (Vermelho, Verde e Azul)
 \end_layout
 
 \begin_layout Itemize
@@ -693,7 +911,29 @@ gamut
 Extração de primitivas em nuvens de pontos
 \end_layout
 
-\begin_layout EndFrame
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Tomar ideias e figuras do poster do SIBGRAPI
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+RANSAC (explicação simples)
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -702,7 +942,31 @@ Resultados
 \end_layout
 
 \begin_layout BeginFrame
-Resultados
+Implementação
+\end_layout
+
+\begin_layout Itemize
+C++, com Orientação a Objetos
+\end_layout
+
+\begin_layout Itemize
+Qt5 (
+\emph on
+Kit 
+\emph default
+gráfico)
+\end_layout
+
+\begin_layout Itemize
+CMake (gerenciamento do projeto)
+\end_layout
+
+\begin_layout Itemize
+Google Test (
+\emph on
+Framework 
+\emph default
+de testes)
 \end_layout
 
 \begin_layout EndFrame
@@ -710,23 +974,88 @@ Resultados
 \end_layout
 
 \begin_layout BeginFrame
+Benchmarking
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Criar tabela com informações
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+CPU (GHz) e número de cores
+\end_layout
+
+\begin_layout Itemize
+RAM
+\end_layout
+
+\begin_layout Itemize
+Sistema Operacional
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Criar tabela com tempos para diversos exemplos.
+ Com e sem PCS Detection.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Ideias Futuras
+\end_layout
+
+\begin_layout Itemize
+Ideias futuras
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Ray-tracer
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Serialização
+\end_layout
+
+\begin_layout Itemize
+Paralelização
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Extração de Primitivas
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Melhorar algoritmos
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
 Conclusão
-\end_layout
-
-\begin_layout Itemize
-Raytracer
-\end_layout
-
-\begin_layout Itemize
-Detecção de formas em nuvens de pontos
-\end_layout
-
-\begin_layout EndFrame
-
-\end_layout
-
-\begin_layout BeginFrame
-Trabalho Futuro
 \end_layout
 
 \begin_layout EndFrame
