@@ -21,11 +21,6 @@
 \setbeamertemplate{navigation symbols}{} %remove navigation symbols
 \setbeamertemplate{footline}[page number]
 \beamerdefaultoverlayspecification{<+->}
-
-% algorithms
-% http://latexbr.blogspot.com.br/2013/01/pseudo-codigo-no-latex-em-portugues.html
-%http://tex.stackexchange.com/questions/1375/what-is-a-good-package-for-displaying-algorithms/1376#1376
-% http://tex.stackexchange.com/questions/30363/how-do-i-define-a-new-command-in-algorithmicx
 \end_preamble
 \options english,brazil
 \use_default_options true
@@ -108,46 +103,20 @@ Ray Tracing: O Mundo Através De Raios de Luz
 Thiago Barroso Perrotta
 \series default
 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-
-\backslash
-Prof.º Ricardo G.
- Marroquim
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
-
+Prof.º Ricardo G.
+ marroquim
 \end_layout
 
 \begin_layout Institute
 Universidade Federal do Rio de Janeiro
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-
-\backslash
-Bolsa CNPQ Balcão 
-\backslash
-
-\backslash
-[20pt] XXXVI Jornada Giulio Massarani de Iniciação Científica, Tecnológica,
- Artística e Cultural 
 \end_layout
 
-\end_inset
-
-
+\begin_layout Subtitle
+XXXVI Jornada Giulio Massarani de Iniciação Científica, Tecnológica, Artística
+ e Cultural 
 \end_layout
 
 \begin_layout TitleGraphic
@@ -162,10 +131,6 @@ Bolsa CNPQ Balcão
 
 \begin_layout Date
 10 de outubro de 2014
-\end_layout
-
-\begin_layout EndFrame
-
 \end_layout
 
 \begin_layout Standard
@@ -203,12 +168,21 @@ usepackage[aspectratio=54]{beamer}
 
 \end_layout
 
-\begin_layout Section
-Introdução
+\begin_layout EndFrame
+
 \end_layout
 
-\begin_layout Subsection
-Conceituando
+\begin_layout BeginFrame
+Agenda
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout EndFrame
@@ -216,27 +190,507 @@ Conceituando
 \end_layout
 
 \begin_layout Section
-Desenvolvimento
+Raytracer
 \end_layout
 
-\begin_layout Subsection
+\begin_layout BeginFrame
 Conceituando
-\end_layout
-
-\begin_layout Subsection
-Analisando
 \end_layout
 
 \begin_layout Itemize
-Performance / Benchmarking
+Renderizar imagens
 \end_layout
 
-\begin_layout Subsection
-Generalizações
+\begin_layout EndFrame
+
 \end_layout
 
-\begin_layout Subsection
-Aplicações
+\begin_layout BeginFrame
+<1>
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[label=algoritmo]
+\end_layout
+
+\end_inset
+
+Algoritmo
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<1-|alert@1>
+\end_layout
+
+\end_inset
+
+Defina alguns objetos
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<2-|alert@2>
+\end_layout
+
+\end_inset
+
+Especifique um material para cada objeto
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<3-|alert@3>
+\end_layout
+
+\end_inset
+
+Defina algumas fontes de luz
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<4-|alert@4>
+\end_layout
+
+\end_inset
+
+Define uma janela cuja superfície seja coberta com pixels
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<5->
+\end_layout
+
+\end_inset
+
+Para cada 
+\emph on
+pixel
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<5-|alert@5>
+\end_layout
+
+\end_inset
+
+atire um raio, a partir do centro do 
+\emph on
+pixel
+\emph default
+, na direção dos objetos
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<6-|alert@6>
+\end_layout
+
+\end_inset
+
+compute, dentre os pontos atingidos nos objetos, o que esteja mais próximo
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<7-|alert@7>
+\end_layout
+
+\end_inset
+
+Se o raio atingiu um objeto
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+use o material do objeto e as fontes de luz para computar a cor do pixel
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<7-|alert@7>
+\end_layout
+
+\end_inset
+
+Senão
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+defina a cor do 
+\emph on
+pixel 
+\emph default
+como preta
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Objetos
+\end_layout
+
+\begin_layout FrameSubtitle
+Esferas
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/spheres.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/sphere.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Objetos
+\end_layout
+
+\begin_layout FrameSubtitle
+Retângulos
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/rectangles.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/rectangle.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Objetos
+\end_layout
+
+\begin_layout FrameSubtitle
+Triângulos
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Objetos
+\end_layout
+
+\begin_layout FrameSubtitle
+Toros
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout AgainFrame
+<2>algoritmo
+\end_layout
+
+\begin_layout BeginFrame
+Materiais
+\end_layout
+
+\begin_layout Standard
+Materiais
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout AgainFrame
+<3>algoritmo
+\end_layout
+
+\begin_layout BeginFrame
+Fontes de luz
+\end_layout
+
+\begin_layout Standard
+Fontes de luz
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout AgainFrame
+<4>algoritmo
+\end_layout
+
+\begin_layout BeginFrame
+Plano de visualização
+\end_layout
+
+\begin_layout Itemize
+Número de 
+\emph on
+pixels
+\emph default
+ (ex.: 400x400)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Horizontal
+\end_layout
+
+\begin_layout Itemize
+Vertical
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Tamanho de cada 
+\emph on
+pixel 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ zoom
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/viewplane.svg
+	width 55page%
+	height 55pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout AgainFrame
+<5>algoritmo
+\end_layout
+
+\begin_layout BeginFrame
+Interseção entre raio e objetos
+\end_layout
+
+\begin_layout Itemize
+Função 
+\emph on
+Hit 
+\emph default
+para cada objeto
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout AgainFrame
+<6>algoritmo
+\end_layout
+
+\begin_layout AgainFrame
+<7>algoritmo
+\end_layout
+
+\begin_layout BeginFrame
+Cores
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Itemize
+Extras
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+gamma
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+gamut
+\end_layout
+
+\end_deeper
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout Section
+Extração de primitivas em nuvens de pontos
 \end_layout
 
 \begin_layout EndFrame
@@ -244,7 +698,15 @@ Aplicações
 \end_layout
 
 \begin_layout Section
-Conclusão
+Resultados
+\end_layout
+
+\begin_layout BeginFrame
+Resultados
+\end_layout
+
+\begin_layout EndFrame
+
 \end_layout
 
 \begin_layout BeginFrame
@@ -252,29 +714,19 @@ Conclusão
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Conclusao sobre o raytracer
-\end_layout
-
-\end_inset
-
-
+Raytracer
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Conclusao sobre a integraçao com pcs detection
+Detecção de formas em nuvens de pontos
 \end_layout
 
-\end_inset
+\begin_layout EndFrame
 
+\end_layout
 
+\begin_layout BeginFrame
+Trabalho Futuro
 \end_layout
 
 \begin_layout EndFrame
@@ -289,15 +741,25 @@ Referências
 Referências
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
 
-\series bold
-[1] Suffern, Kevin Geoffrey, and Suffern, Kevin.
+\end_inset
+
+Suffern, Kevin Geoffrey, and Suffern, Kevin.
  Ray Tracing from the Ground up.
  AK Peters, 2007.
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+
+\end_inset
+
 Schnabel, Ruwen, Roland Wahl, and Reinhard Klein.
  "Efficient RANSAC for Point‐Cloud Shape Detection." Computer graphics forum.
  Vol.
