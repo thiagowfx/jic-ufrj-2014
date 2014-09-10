@@ -194,7 +194,7 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-Ray-tracing
+Ray-tracer
 \end_layout
 
 \begin_layout BeginFrame
@@ -207,6 +207,19 @@ Renderizar imagens
 
 \begin_layout Itemize
 Realismo
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Incrementar
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout EndFrame
@@ -311,12 +324,12 @@ status open
 
 \begin_layout Plain Layout
 
-<5-|alert@5>
+<alert@5>
 \end_layout
 
 \end_inset
 
-atire um raio, a partir do centro do 
+Atire um raio, a partir do centro do 
 \emph on
 pixel
 \emph default
@@ -329,12 +342,12 @@ status open
 
 \begin_layout Plain Layout
 
-<6-|alert@6>
+<alert@6>
 \end_layout
 
 \end_inset
 
-compute, dentre os pontos atingidos nos objetos, o que esteja mais próximo
+Compute, dentre os pontos atingidos em cada objeto, o que está mais próximo
 \end_layout
 
 \begin_layout Itemize
@@ -343,7 +356,7 @@ status open
 
 \begin_layout Plain Layout
 
-<7-|alert@7>
+<alert@7>
 \end_layout
 
 \end_inset
@@ -353,7 +366,7 @@ Se o raio atingiu um objeto
 
 \begin_deeper
 \begin_layout Itemize
-use o material do objeto e as fontes de luz para computar a cor do pixel
+Use o material do objeto e as fontes de luz para computar a cor do pixel
 \end_layout
 
 \end_deeper
@@ -363,7 +376,7 @@ status open
 
 \begin_layout Plain Layout
 
-<7-|alert@7>
+<alert@7>
 \end_layout
 
 \end_inset
@@ -373,7 +386,7 @@ Senão
 
 \begin_deeper
 \begin_layout Itemize
-defina a cor do 
+Defina a cor do 
 \emph on
 pixel 
 \emph default
@@ -732,12 +745,8 @@ textwidth
 Materiais
 \end_layout
 
-\begin_layout Itemize
-Definem o tipo de iluminação
-\end_layout
-
-\begin_layout Itemize
-Modelo Whitted
+\begin_layout FrameSubtitle
+Iluminação
 \end_layout
 
 \begin_layout Block
@@ -746,7 +755,7 @@ status open
 
 \begin_layout Plain Layout
 
-{Iluminações}
+{Tipos}
 \end_layout
 
 \end_inset
@@ -764,10 +773,137 @@ Difusa
 \end_layout
 
 \begin_layout Itemize
-Refletiva
+Especular
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/phong_components_wiki.png
+	height 35pheight%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Materiais
+\end_layout
+
+\begin_layout FrameSubtitle
+Modelos
+\end_layout
+
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Matte
+\emph default
+ = Ambiente + Difusa
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Phong
+\emph default
+ = Ambiente + Difusa + Especular
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/torus-matte.png
+	width 85col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\emph on
+Matte
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/torus-phong.png
+	width 85col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\emph on
+Phong
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -780,15 +916,95 @@ Refletiva
 Fontes de luz
 \end_layout
 
-\begin_layout Standard
-Fontes de luz
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Direcionais
 \end_layout
 
 \begin_layout Itemize
+Pontuais
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/light-directional.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
 Direcional
 \end_layout
 
-\begin_layout Itemize
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/light-point.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
 Pontual
 \end_layout
 
@@ -865,6 +1081,20 @@ Hit
 para cada objeto
 \end_layout
 
+\begin_layout Itemize
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Incrementar.
+ Figuras.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout EndFrame
 
 \end_layout
@@ -873,12 +1103,59 @@ para cada objeto
 <6>algoritmo
 \end_layout
 
+\begin_layout BeginFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Figura (ponto mais perto)
+\end_layout
+
+\end_inset
+
+ ponto mais perto...
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
 \begin_layout AgainFrame
 <7>algoritmo
 \end_layout
 
 \begin_layout BeginFrame
-Cores
+Computar cores
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Figura (computar a cor do pixel) -- pseudoequação
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Figura: RGB
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -911,6 +1188,24 @@ gamut
 Extração de primitivas em nuvens de pontos
 \end_layout
 
+\begin_layout BeginFrame
+Extração de primitivas
+\end_layout
+
+\begin_layout FrameSubtitle
+Conceituando
+\end_layout
+
+\begin_layout Itemize
+Primitivas
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Cilindros...
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Note Note
 status open
@@ -937,36 +1232,191 @@ RANSAC (explicação simples)
 
 \end_layout
 
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+RANSAC
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+explicar, esquema, ...
+\end_layout
+
+\end_inset
+
+explicar, esquema, ...
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
 \begin_layout Section
 Resultados
+\end_layout
+
+\begin_layout BeginFrame
+Alguns resultados
+\end_layout
+
+\begin_layout FrameSubtitle
+Ray-tracing
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
+\begin_layout BeginFrame
+Alguns resultados
+\end_layout
+
+\begin_layout FrameSubtitle
+Extração de primitivas
+\end_layout
+
+\begin_layout EndFrame
+
 \end_layout
 
 \begin_layout BeginFrame
 Implementação
 \end_layout
 
-\begin_layout Itemize
-C++, com Orientação a Objetos
+\begin_layout Standard
+Detalhes
 \end_layout
 
-\begin_layout Itemize
-Qt5 (
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Linguagem de Programação
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C++, com orientação a objetos
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
 \emph on
-Kit 
+Kit
 \emph default
-gráfico)
+ gráfico
 \end_layout
 
-\begin_layout Itemize
-CMake (gerenciamento do projeto)
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Qt 5
 \end_layout
 
-\begin_layout Itemize
-Google Test (
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Gerenciamento de 
+\emph on
+build
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CMake
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
 \emph on
 Framework 
 \emph default
-de testes)
+de testes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Google Test
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Plataforma
+\end_layout
+
+\begin_layout Itemize
+Ubuntu 14.04 LTS 64-bit
+\end_layout
+
+\begin_layout Itemize
+Intel Core i7 950 @ 3.07 GHz x 8 cores
+\end_layout
+
+\begin_layout Itemize
+15,7 GB de RAM
 \end_layout
 
 \begin_layout EndFrame
@@ -982,7 +1432,8 @@ Benchmarking
 status open
 
 \begin_layout Plain Layout
-Criar tabela com informações
+Criar tabela com tempos para diversos exemplos.
+ Com e sem PCS Detection.
 \end_layout
 
 \end_inset
@@ -990,25 +1441,13 @@ Criar tabela com informações
 
 \end_layout
 
-\begin_layout Itemize
-CPU (GHz) e número de cores
-\end_layout
-
-\begin_layout Itemize
-RAM
-\end_layout
-
-\begin_layout Itemize
-Sistema Operacional
-\end_layout
-
 \begin_layout Standard
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-Criar tabela com tempos para diversos exemplos.
- Com e sem PCS Detection.
+Estressar os seguintes pontos: exemplo com reflexão, exemplo com pcs detection,
+ exemplo com muitas luzes, exemplo com muitos objetos, número de amostras
 \end_layout
 
 \end_inset
