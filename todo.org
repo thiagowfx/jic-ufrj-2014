@@ -1,0 +1,5 @@
+* TODO
+- [ ] Introducao
+- [ ] Extracao de primitivas (RANSAC, etc)
+- [ ] Exemplos finais + benchmarking de ray-tracer
+- [ ] Exemplos finais + benchmarking de primitivas
