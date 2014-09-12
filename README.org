@@ -1,13 +1,9 @@
-You'll need the following (Ubuntu) packages to proceed:
+You'll need the following Ubuntu packages to proceed:
 
-- evince (or another PDF reader)
-- git (or another DVCS)
-- lyx
-- texlive-lang-portuguese
-
-Or the following Arch Linux ones:
-
+- dia
 - evince
 - git
 - lyx
 - texlive
+- texlive-lang-portuguese
+- zathura
