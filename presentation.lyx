@@ -211,7 +211,11 @@ Ray-tracer
 \end_layout
 
 \begin_layout BeginFrame
-O quê?
+Ray-tracer
+\end_layout
+
+\begin_layout FrameSubtitle
+Conceituando
 \end_layout
 
 \begin_layout Itemize
@@ -1243,11 +1247,113 @@ Extração de primitivas em nuvens de pontos
 \end_layout
 
 \begin_layout BeginFrame
-Extração de primitivas
+Extração de primitivas em nuvens de pontos
 \end_layout
 
 \begin_layout FrameSubtitle
 Conceituando
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename imgs/pcsd-design.dia
+	width 85page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.33
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/cube-pcs-0.png
+	lyxscale 50
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.33
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/cube-pcs-1.png
+	lyxscale 50
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.33
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/cube-pcs-2.png
+	lyxscale 50
+	width 80col%
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -1256,49 +1362,39 @@ Primitivas
 
 \begin_deeper
 \begin_layout Itemize
-Cilindros...
+cones
+\end_layout
+
+\begin_layout Itemize
+cilindros
+\end_layout
+
+\begin_layout Itemize
+planos
+\end_layout
+
+\begin_layout Itemize
+esferas
+\end_layout
+
+\begin_layout Itemize
+toros
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Tomar ideias e figuras do poster do SIBGRAPI
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-RANSAC (explicação simples)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout EndFrame
 
 \end_layout
 
 \begin_layout BeginFrame
-Extração de primitivas
+Extração de primitivas em nuvens de pontos
 \end_layout
 
 \begin_layout FrameSubtitle
-RANSAC
+Algoritmo RANSAC
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 \begin_inset Note Note
 status open
 
@@ -1308,7 +1404,16 @@ explicar, esquema, ...
 
 \end_inset
 
-explicar, esquema, ...
+% explicar, esquema, ...
+ 
+\begin_inset Formula $\leftarrow$
+\end_inset
+
+ Daniel
+\end_layout
+
+\begin_layout Itemize
+% possivelmente pseudocódigo nessa parte
 \end_layout
 
 \begin_layout EndFrame
