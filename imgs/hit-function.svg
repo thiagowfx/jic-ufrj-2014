@@ -36,9 +36,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.85892341"
-     inkscape:cx="410.26363"
-     inkscape:cy="736.46273"
+     inkscape:zoom="2.4294023"
+     inkscape:cx="311.28779"
+     inkscape:cy="731.98244"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2725,13 +2725,13 @@
        d="m 185.11545,303.16849 a 16.299475,61.123028 0 1 1 -32.59895,0 16.299475,61.123028 0 1 1 32.59895,0 z"
        transform="matrix(1,-1.4226076,0,1,-3.492744,250.63713)" />
     <path
-       style="fill:none;stroke:#0000ff;stroke-width:1.07818151;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="M 541.43394,377.85401 171.86202,330.988 l 9.76228,10.04272 -11.15689,-10.04272 13.24883,-8.03418"
+       style="fill:none;stroke:#0000ff;stroke-width:1.1712271;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 541.38742,377.80749 -403.51557,-50.65183 10.6589,10.85397 -12.1816,-10.85397 14.46568,-8.68318"
        id="path4115"
        inkscape:connector-curvature="0" />
     <path
        sodipodi:type="arc"
-       style="fill:#008080;fill-opacity:1;stroke:#008080;stroke-width:1.67999995;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:1.67999995000000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
        id="path6032"
        sodipodi:cx="184.65456"
        sodipodi:cy="300.81094"
@@ -2739,5 +2739,15 @@
        sodipodi:ry="7.1850023"
        d="m 192.55806,300.81094 a 7.9035025,7.1850023 0 1 1 -15.80701,0 7.9035025,7.1850023 0 1 1 15.80701,0 z"
        transform="matrix(0.96743627,0,0,0.96195317,87.632375,53.971523)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-width:1.67999995000000002;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       id="path6032-4"
+       sodipodi:cx="184.65456"
+       sodipodi:cy="300.81094"
+       sodipodi:rx="7.9035025"
+       sodipodi:ry="7.1850023"
+       d="m 192.55806,300.81094 a 7.9035025,7.1850023 0 1 1 -15.80701,0 7.9035025,7.1850023 0 1 1 15.80701,0 z"
+       transform="matrix(0.96743627,0,0,0.96195317,-4.5886017,42.660201)" />
   </g>
 </svg>

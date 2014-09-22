@@ -7,8 +7,6 @@
 \usepackage{pgf}
 \usepackage{xcolor}
 \usepackage{listings}
-%\usepackage{algorithmicx, algorithm2e}
-\usepackage{algpseudocode,algorithm}
 \everymath{\displaystyle}
 \mode<presentation> {
   \usetheme{CambridgeUS}
@@ -55,10 +53,10 @@
 \pdf_bookmarksnumbered false
 \pdf_bookmarksopen false
 \pdf_bookmarksopenlevel 1
-\pdf_breaklinks false
-\pdf_pdfborder false
+\pdf_breaklinks true
+\pdf_pdfborder true
 \pdf_colorlinks false
-\pdf_backref false
+\pdf_backref slide
 \pdf_pdfusetitle true
 \papersize default
 \use_geometry true
@@ -95,7 +93,7 @@
 
 \begin_layout Standard
 \begin_inset Note Note
-status collapsed
+status open
 
 \begin_layout Plain Layout
 - Bons Temas: Antibes, 
@@ -148,8 +146,7 @@ Thiago Barroso Perrotta
 \begin_inset Newline newline
 \end_inset
 
-Prof.º Ricardo G.
- marroquim
+Prof.º Ricardo Marroquim
 \end_layout
 
 \begin_layout Institute
@@ -206,6 +203,47 @@ end{frame}}
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Resumo submetido para a plataforma da JICTAC/UFRJ:
+\end_layout
+
+\begin_layout Plain Layout
+Ray tracing é uma técnica utilizada para gerar imagens digitais através
+ do rastreio do caminho da luz em pixels de um plano de imagem, e da simulação
+ de efeitos de seus encontros com objetos definidos virtualmente.
+ Essa técnica é capaz de produzir um bom nível de realismo visual pois simula
+ a interação física da luz com os objetos e seus materiais; no entanto,
+ isso é feito às custas de uma alta complexidade de tempo computacional.
+ Isso faz do ray tracing uma excelente aplicação em cenas que não precisam
+ ser geradas em tempo real, como por exemplo efeitos visuais em filmes.
+ Nesse trabalho, estudamos o passo-a-passo do processo de escrever um ray
+ tracer a partir do zero, baseando-se em [1].
+ Tratamos de detalhes tais como: a modelagem do ray tracer na linguagem
+ de programação C++ utilizando o paradigma de orientação a objetos, com
+ classes organizadas em um esquema modular; a inclusão de luzes e sombras
+ em uma cena; e diversos efeitos e recursos, tais como anti-aliasing e visão
+ em perspectiva.
+ Este trabalho inclui, além de um estudo sistemático sobre o processo de
+ ray tracing com sua respectiva implementação em C++, uma coletânea de resultado
+s e conclusões que obtivemos a partir de vários testes realizados.
+ Como trabalho em andamento estamos estendendo o ray tracer para trabalhar
+ diretamente com dados extraídos de modelos escaneados no formato implícito,
+ isto é, dados formados por operações booleanas de primitivas básicas tais
+ como cilindros, esferas, planos, etc.
+ Esta extensão visa gerar visualizações de qualidade de modelos mecânicos
+ digitalizados.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Ray-tracer
 \end_layout
@@ -218,33 +256,43 @@ Ray-tracer
 Conceituando
 \end_layout
 
-\begin_layout Itemize
-Renderização de imagens
-\end_layout
-
-\begin_layout Itemize
-Realismo
-\end_layout
-
-\begin_layout Itemize
+\begin_layout Standard
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-% Mais sugestões? -- incrementar
+HELPER: Simulação; quanto mais se aproximar do modelo físico, mais realista
+ porém mais demorado.
+ Modelo matemático = diversas simplificações para ganhar desempenho.
 \end_layout
 
 \end_inset
 
-% Mais sugestões? -- incrementar
+
+\end_layout
+
+\begin_layout Itemize
+Interação física da 
+\series bold
+luz
+\series default
+ com objetos
+\end_layout
+
+\begin_layout Itemize
+Modelo físico, com diversas 
+\series bold
+aproximações matemáticas
+\end_layout
+
+\begin_layout Itemize
+Renderização de imagens com alto grau de 
+\series bold
+realismo
 \end_layout
 
 \begin_layout EndFrame
 
-\end_layout
-
-\begin_layout Subsection
-O algoritmo
 \end_layout
 
 \begin_layout BeginFrame
@@ -315,7 +363,7 @@ status open
 
 \end_inset
 
-Defina uma janela cuja superfície seja coberta com pixels
+Defina um plano de visualização
 \end_layout
 
 \begin_layout Itemize
@@ -346,11 +394,11 @@ status open
 
 \end_inset
 
-Atire um raio, a partir do centro do 
+Atire um raio do centro do 
 \emph on
 pixel
 \emph default
-, na direção dos objetos
+ na direção dos objetos
 \end_layout
 
 \begin_layout Itemize
@@ -364,7 +412,7 @@ status open
 
 \end_inset
 
-Compute, dentre os pontos atingidos, o mais próximo
+Dentre os pontos atingidos, compute o mais próximo
 \end_layout
 
 \begin_layout Itemize
@@ -378,12 +426,12 @@ status open
 
 \end_inset
 
-Se o raio atingir um objeto
+Se o raio atingiu algum objeto
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Use o material do objeto e as fontes de luz para computar a cor do 
+Use o material do mesmo e as luzes para computar a cor do 
 \emph on
 pixel
 \end_layout
@@ -400,16 +448,16 @@ status open
 
 \end_inset
 
-Senão
+Caso contrário
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Ponha a cor do 
+Ponha 
 \emph on
-pixel 
+o pixel 
 \emph default
-como preta
+com a cor de fundo
 \end_layout
 
 \end_deeper
@@ -761,7 +809,22 @@ textwidth
 \end_layout
 
 \begin_layout BeginFrame
-Materiais
+Os materiais
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula $\Longrightarrow$
+\end_inset
+
+ Como
+\series default
+ dado objeto deve 
+\series bold
+interagir com a luz
+\series default
+?
 \end_layout
 
 \begin_layout Block
@@ -770,7 +833,7 @@ status open
 
 \begin_layout Plain Layout
 
-{Tipos de iluminação}
+{Tipos de Iluminação}
 \end_layout
 
 \end_inset
@@ -808,41 +871,9 @@ Especular
 \end_layout
 
 \begin_layout BeginFrame
-Materiais
+Os materiais
 \end_layout
 
-\begin_layout Block
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-{Tipos}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\emph on
-Matte
-\emph default
- = Luzes: Ambiente + Difusa
-\end_layout
-
-\begin_layout Itemize
-
-\emph on
-Phong
-\emph default
- = Luzes: Ambiente + Difusa + Especular
-\end_layout
-
-\end_deeper
 \begin_layout ColumnsCenterAligned
 
 \end_layout
@@ -877,8 +908,14 @@ textwidth
 
 \begin_layout ColumnsCenterAligned
 
-\emph on
+\series bold
 Matte
+\series default
+: interação
+\begin_inset Newline newline
+\end_inset
+
+ambiente + difusa
 \end_layout
 
 \begin_deeper
@@ -911,8 +948,14 @@ textwidth
 
 \begin_layout ColumnsCenterAligned
 
-\emph on
+\series bold
 Phong
+\series default
+: interação
+\begin_inset Newline newline
+\end_inset
+
+ambiente + difusa + especular
 \end_layout
 
 \begin_layout EndFrame
@@ -924,7 +967,7 @@ Phong
 \end_layout
 
 \begin_layout BeginFrame
-Fontes de luz
+As fontes de luz
 \end_layout
 
 \begin_layout Block
@@ -943,11 +986,11 @@ status open
 
 \begin_deeper
 \begin_layout Itemize
-Direcional
+Direcionais
 \end_layout
 
 \begin_layout Itemize
-Pontual
+Pontuais
 \end_layout
 
 \end_deeper
@@ -984,7 +1027,7 @@ textwidth
 \end_layout
 
 \begin_layout ColumnsCenterAligned
-Direcional
+Luz direcional
 \end_layout
 
 \begin_deeper
@@ -1016,7 +1059,7 @@ textwidth
 \end_layout
 
 \begin_layout ColumnsCenterAligned
-Pontual
+Luz pontual
 \end_layout
 
 \begin_layout EndFrame
@@ -1028,33 +1071,56 @@ Pontual
 \end_layout
 
 \begin_layout BeginFrame
-Plano de visualização
+O plano de visualização
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+HELPER: é uma janela cuja superfície é coberta com pixels.
+ Definir o tamanho da minha cena, o zoom em relação a ela, e a posição de
+ onde eu vou visualizá-la, fazendo analogia com uma câmera, mas sem entrar
+ em detalhes de visão em perspectiva.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-Número (horizontal 
-\begin_inset Formula $+$
+
+\series bold
+Resolução 
+\series default
+(número de 
+\emph on
+pixels)
+\series bold
+\emph default
+ 
+\series default
+
+\begin_inset Formula $\mbox{\Longrightarrow}$
 \end_inset
 
- vertical) de 
-\emph on
-pixels
-\emph default
- (ex.: 
+ Ex.: 
 \begin_inset Formula $400\times400$
 \end_inset
 
-)
+
 \end_layout
 
 \begin_layout Itemize
 Tamanho de cada 
 \emph on
-pixel 
-\begin_inset Formula $\Rightarrow$
-\end_inset
+pixel
+\end_layout
 
- zoom
+\begin_layout Itemize
+Câmera
 \end_layout
 
 \begin_layout ColumnsCenterAligned
@@ -1124,7 +1190,7 @@ textwidth
 \end_layout
 
 \begin_layout ColumnsCenterAligned
-Diferentes resoluções
+Várias resoluções distintas
 \end_layout
 
 \begin_layout EndFrame
@@ -1136,7 +1202,7 @@ Diferentes resoluções
 \end_layout
 
 \begin_layout BeginFrame
-Interseção entre raio e objetos
+Interseção entre um raio e vários objetos
 \end_layout
 
 \begin_layout ColumnsCenterAligned
@@ -1162,10 +1228,13 @@ textwidth
 
 \begin_layout Itemize
 Função 
+\noun on
+HIT
 \emph on
-Hit 
+\noun default
+ 
 \emph default
-para cada objeto
+para cada classe de objeto
 \end_layout
 
 \begin_layout Standard
@@ -1206,7 +1275,7 @@ textwidth
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename imgs/hit-function.png
+	filename imgs/hit-first-object.svg
 	lyxscale 33
 	height 35pheight%
 
@@ -1225,7 +1294,7 @@ textwidth
 
 \begin_layout ColumnsCenterAligned
 \begin_inset Graphics
-	filename imgs/hit-first-object.svg
+	filename imgs/hit-function.png
 	lyxscale 35
 	height 35pheight%
 
@@ -1242,6 +1311,27 @@ textwidth
 <6>algoritmo
 \end_layout
 
+\begin_layout BeginFrame
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO incluir imagens bonitas aqui
+\end_layout
+
+\end_inset
+
+% TODO incluir imagens bonitas aqui
+\end_layout
+
+\begin_layout EndFrame
+
+\end_layout
+
 \begin_layout Section
 Extração de primitivas em nuvens de pontos
 \end_layout
@@ -1252,6 +1342,21 @@ Extração de primitivas em nuvens de pontos
 
 \begin_layout FrameSubtitle
 Conceituando
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Transição de modo mais suave; introduzir as nuvens de pontos e mencionar
+ que a origem delas é geralmente através de modelos 3D escaneados.
+ Motivações tais como compactar, etc.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1413,7 +1518,11 @@ explicar, esquema, ...
 \end_layout
 
 \begin_layout Itemize
-% possivelmente pseudocódigo nessa parte
+% Explicação do pseudocódigo (random) sobre candidatos a primitivas, etc
+\end_layout
+
+\begin_layout Itemize
+Incluir a mesma imagem do cubo anterior, para utilizá-la como exemplo
 \end_layout
 
 \begin_layout EndFrame
@@ -1421,7 +1530,7 @@ explicar, esquema, ...
 \end_layout
 
 \begin_layout Section
-Resultados
+Na prática
 \end_layout
 
 \begin_layout Subsection
@@ -1455,7 +1564,31 @@ Linguagem de Programação
 \begin_inset Text
 
 \begin_layout Plain Layout
-C++ (gcc), com O.O.
+C++ (gcc)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Gerenciamento de 
+\emph on
+Build
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CMake
 \end_layout
 
 \end_inset
@@ -1481,30 +1614,6 @@ Kit
 
 \begin_layout Plain Layout
 Qt 5
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-Gerenciamento de 
-\emph on
-build
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-CMake
 \end_layout
 
 \end_inset
@@ -1548,7 +1657,7 @@ status open
 
 \begin_layout Plain Layout
 
-{Ambiente}
+{Ambiente de desenvolvimento}
 \end_layout
 
 \end_inset
@@ -1558,11 +1667,11 @@ status open
 
 \begin_deeper
 \begin_layout Itemize
-Ubuntu 14.04 LTS 64-bit
+Ubuntu 14.04 64-bit
 \end_layout
 
 \begin_layout Itemize
-Intel Core i7 950 @ 3.07 GHz x 8 cores
+Processador Intel Core i7 950 @ 3.07 GHz x 8
 \end_layout
 
 \begin_layout Itemize
@@ -1575,7 +1684,7 @@ Intel Core i7 950 @ 3.07 GHz x 8 cores
 \end_layout
 
 \begin_layout Subsection
-Imagens
+Alguns resultados
 \end_layout
 
 \begin_layout BeginFrame
@@ -1604,12 +1713,12 @@ Imagens
 status open
 
 \begin_layout Plain Layout
-Tabela
+Stats
 \end_layout
 
 \end_inset
 
-% Tabela
+% Stats tais como tempo de renderização, número de amostras por pixel, etc
 \end_layout
 
 \begin_layout EndFrame
@@ -1634,7 +1743,8 @@ Imagens
 
 \end_inset
 
-% Imagens
+% Imagens -- incluir a figura mecânica e os planos ~ cilindro.
+ Se possível, com ray-tracing também
 \end_layout
 
 \begin_layout Standard
@@ -1642,12 +1752,12 @@ Imagens
 status open
 
 \begin_layout Plain Layout
-Tabela
+Stats
 \end_layout
 
 \end_inset
 
-% Tabela
+% Stats tais como tempo de renderização, número de pontos de entrada, etc.
 \end_layout
 
 \begin_layout EndFrame
@@ -1659,11 +1769,7 @@ Conclusão
 \end_layout
 
 \begin_layout BeginFrame
-O Futuro
-\end_layout
-
-\begin_layout FrameSubtitle
-Conclusão
+Conclusão e o futuro
 \end_layout
 
 \begin_layout Itemize
@@ -1699,11 +1805,11 @@ Melhorar algoritmos (memória, performance)
 \end_layout
 
 \begin_layout Itemize
-Nuvens de pontos mais complexas
+Testar com nuvens de pontos mais complexas
 \end_layout
 
 \begin_layout Itemize
-Serialização (salvar estados)
+Salvar estados intermediários
 \end_layout
 
 \end_deeper
@@ -1752,16 +1858,16 @@ Schnabel, Ruwen, Roland Wahl, and Reinhard Klein.
 
 \end_layout
 
-\begin_layout BeginFrame
-TODO
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Itemize
+[~] Introducao 
 \end_layout
 
 \begin_layout Itemize
-[ ] Introducao 
-\end_layout
-
-\begin_layout Itemize
-[ ] Extracao de primitivas (RANSAC, etc) 
+[..] Extracao de primitivas (RANSAC, etc) 
 \end_layout
 
 \begin_layout Itemize
@@ -1772,7 +1878,8 @@ TODO
 [ ] Exemplos finais + benchmarking de primitivas
 \end_layout
 
-\begin_layout EndFrame
+\end_inset
+
 
 \end_layout
 
