@@ -96,7 +96,16 @@
 status open
 
 \begin_layout Plain Layout
-- Bons Temas: Antibes, 
+Instruções para reuso:
+\end_layout
+
+\begin_layout Plain Layout
+- Olhar o preâmbulo do LaTeX, definido pelo LyX, em Documents > Settings
+ > LaTeX preamble
+\end_layout
+
+\begin_layout Plain Layout
+- Bons temas para o beamer: Antibes, 
 \series bold
 CambridgeUS
 \series default
@@ -104,7 +113,7 @@ CambridgeUS
 \end_layout
 
 \begin_layout Plain Layout
-- Cor dos temas:
+- Cores dos temas podem ser alteradas da seguinte forma:
 \end_layout
 
 \begin_layout Plain Layout
@@ -182,7 +191,7 @@ status open
 
 \begin_layout Plain Layout
 
-% Um slide para cada troca de subseção
+% Habilitar um slide para cada troca de subseção
 \end_layout
 
 \begin_layout Plain Layout
@@ -191,9 +200,9 @@ status open
 \backslash
 AtBeginSection[]{
 \backslash
-begin{frame}{Agenda}   
+begin{frame}{Agenda}
 \backslash
-tableofcontents[currentsection,subsectionsonly]  
+tableofcontents[currentsection,subsectionsonly]
 \backslash
 end{frame}}
 \end_layout
@@ -1234,7 +1243,7 @@ HIT
 \noun default
  
 \emph default
-para cada classe de objeto
+para cada objeto
 \end_layout
 
 \begin_layout Standard
@@ -1312,20 +1321,177 @@ textwidth
 \end_layout
 
 \begin_layout BeginFrame
+Exemplos
+\end_layout
+
+\begin_layout ColumnsCenterAligned
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-TODO incluir imagens bonitas aqui
+
+0.33
+\backslash
+textwidth
 \end_layout
 
 \end_inset
 
-% TODO incluir imagens bonitas aqui
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename imgs/nice-Figure16.11(a).jpg
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/nice-Figure25.10(b).jpg
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.33
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename imgs/nice-Figure18.08(b).jpg
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+HELPER: luz ambiente (environment light)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/nice-Figure28.38(a).jpg
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.33
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/nice-Figure23.09(b).jpg
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/nice-Figure28.44(b).jpg
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout EndFrame
@@ -1534,10 +1700,14 @@ Na prática
 \end_layout
 
 \begin_layout Subsection
-Contexto
+Alguns resultados
 \end_layout
 
 \begin_layout BeginFrame
+Alguns resultados
+\end_layout
+
+\begin_layout Subtitle
 Contexto
 \end_layout
 
@@ -1564,7 +1734,7 @@ Linguagem de Programação
 \begin_inset Text
 
 \begin_layout Plain Layout
-C++ (gcc)
+C++ (g++)
 \end_layout
 
 \end_inset
@@ -1657,7 +1827,7 @@ status open
 
 \begin_layout Plain Layout
 
-{Ambiente de desenvolvimento}
+{Ambiente de testes}
 \end_layout
 
 \end_inset
@@ -1671,20 +1841,26 @@ Ubuntu 14.04 64-bit
 \end_layout
 
 \begin_layout Itemize
-Processador Intel Core i7 950 @ 3.07 GHz x 8
+Intel Core i5-3317U @ 1.7GHz x 4
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Intel Core i7 950 @ 3.1 GHz x 8
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-16 GB de RAM
+4GB de memória
 \end_layout
 
 \end_deeper
 \begin_layout EndFrame
 
-\end_layout
-
-\begin_layout Subsection
-Alguns resultados
 \end_layout
 
 \begin_layout BeginFrame
@@ -1696,29 +1872,7 @@ Ray-tracing
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
 
-\begin_layout Plain Layout
-Imagens
-\end_layout
-
-\end_inset
-
-% Imagens
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Stats
-\end_layout
-
-\end_inset
-
-% Stats tais como tempo de renderização, número de amostras por pixel, etc
 \end_layout
 
 \begin_layout EndFrame
@@ -1733,31 +1887,114 @@ Alguns resultados
 Extração de primitivas
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-Imagens
+
+0.48
+\backslash
+textwidth
 \end_layout
 
 \end_inset
 
-% Imagens -- incluir a figura mecânica e os planos ~ cilindro.
- Se possível, com ray-tracing também
+
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/pcsd-planes-boundaries0.png
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/pcsd-planes-boundaries1.png
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-Stats
+
+0.48
+\backslash
+textwidth
 \end_layout
 
 \end_inset
 
-% Stats tais como tempo de renderização, número de pontos de entrada, etc.
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/pcsd-bbm0.png
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/pcsd-bbm1.png
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+
 \end_layout
 
 \begin_layout EndFrame
@@ -1769,14 +2006,9 @@ Conclusão
 \end_layout
 
 \begin_layout BeginFrame
-Conclusão e o futuro
+Conclusão e Ideias Futuras
 \end_layout
 
-\begin_layout Itemize
-Ideias futuras
-\end_layout
-
-\begin_deeper
 \begin_layout Itemize
 Ray-tracer
 \end_layout
@@ -1812,7 +2044,6 @@ Testar com nuvens de pontos mais complexas
 Salvar estados intermediários
 \end_layout
 
-\end_deeper
 \end_deeper
 \begin_layout EndFrame
 
