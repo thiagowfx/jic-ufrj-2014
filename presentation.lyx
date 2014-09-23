@@ -1525,6 +1525,22 @@ Transição de modo mais suave; introduzir as nuvens de pontos e mencionar
 
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Origens
+\series default
+: Modelos 3D escaneados
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Motivações
+\series default
+: simplificação, compactação
+\end_layout
+
 \begin_layout Standard
 \align center
 \begin_inset Graphics
@@ -1627,32 +1643,14 @@ textwidth
 
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
+
+\series bold
 Primitivas
+\series default
+: cones, cilindros, planos, esferas, toros.
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-cones
-\end_layout
-
-\begin_layout Itemize
-cilindros
-\end_layout
-
-\begin_layout Itemize
-planos
-\end_layout
-
-\begin_layout Itemize
-esferas
-\end_layout
-
-\begin_layout Itemize
-toros
-\end_layout
-
-\end_deeper
 \begin_layout EndFrame
 
 \end_layout
@@ -1665,30 +1663,113 @@ Extração de primitivas em nuvens de pontos
 Algoritmo RANSAC
 \end_layout
 
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.60
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Itemize
+Tome alguns pontos aleatoriamente
+\end_layout
+
+\begin_layout Itemize
+Considere a primitiva que eles formam
+\end_layout
+
+\begin_layout Itemize
+Verifique se ela é um bom candidato
+\end_layout
+
+\begin_layout Itemize
+Repita esse procedimento até dado limite, selecionando as melhores primitivas
+\end_layout
+
+\begin_layout Standard
+
+\emph on
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-explicar, esquema, ...
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Existem algumas otimizações, como o uso de uma 
+\emph on
+octree
 \end_layout
 
 \end_inset
 
-% explicar, esquema, ...
- 
-\begin_inset Formula $\leftarrow$
+
+\end_layout
+
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.40
+\backslash
+textwidth
+\end_layout
+
 \end_inset
 
- Daniel
+
 \end_layout
 
-\begin_layout Itemize
-% Explicação do pseudocódigo (random) sobre candidatos a primitivas, etc
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/cube-pcs-0.png
+	lyxscale 33
+	width 80col%
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Itemize
-Incluir a mesma imagem do cubo anterior, para utilizá-la como exemplo
+\begin_layout ColumnsCenterAligned
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/cube-pcs-1.png
+	lyxscale 33
+	width 100col%
+	height 35pheight%
+	keepAspectRatio
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout EndFrame
@@ -1700,14 +1781,14 @@ Na prática
 \end_layout
 
 \begin_layout Subsection
-Alguns resultados
+Resultados
 \end_layout
 
 \begin_layout BeginFrame
 Alguns resultados
 \end_layout
 
-\begin_layout Subtitle
+\begin_layout FrameSubtitle
 Contexto
 \end_layout
 
@@ -1871,7 +1952,65 @@ Alguns resultados
 Ray-tracing
 \end_layout
 
-\begin_layout Standard
+\begin_layout ColumnsCenterAligned
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/raytracer-balls.png
+	lyxscale 33
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+0.48
+\backslash
+textwidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout ColumnsCenterAligned
+\begin_inset Graphics
+	filename imgs/raytracer-improved-scene.png
+	lyxscale 33
+	width 70col%
+
+\end_inset
+
 
 \end_layout
 
@@ -2016,14 +2155,48 @@ Ray-tracer
 \begin_deeper
 \begin_layout Itemize
 Esquemas de aceleração
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+bounding boxes
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Mais recursos
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\emph on
+features
+\emph default
+, tais como transparências, texturas, transformações 3D, etc
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Paralelização
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+utilizar múltiplos cores
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -2033,15 +2206,45 @@ Extração de primitivas
 
 \begin_deeper
 \begin_layout Itemize
-Melhorar algoritmos (memória, performance)
+Melhorar algoritmos
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+memória, performance
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
-Testar com nuvens de pontos mais complexas
+Testar com modelos mais complexos
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+nuvens de pontos mais complexas
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
 Salvar estados intermediários
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+serializar
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
@@ -2086,31 +2289,6 @@ Schnabel, Ruwen, Roland Wahl, and Reinhard Klein.
 \end_layout
 
 \begin_layout EndFrame
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Itemize
-[~] Introducao 
-\end_layout
-
-\begin_layout Itemize
-[..] Extracao de primitivas (RANSAC, etc) 
-\end_layout
-
-\begin_layout Itemize
-[ ] Exemplos finais + benchmarking de ray-tracer 
-\end_layout
-
-\begin_layout Itemize
-[ ] Exemplos finais + benchmarking de primitivas
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
