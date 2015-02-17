@@ -1,9 +1,0 @@
-You'll need the following Ubuntu packages to proceed:
-
-- dia
-- evince
-- git
-- lyx
-- texlive
-- texlive-lang-portuguese
-- zathura
