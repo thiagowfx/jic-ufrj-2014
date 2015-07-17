@@ -1,6 +1,6 @@
-You'll need the following programs:
+Dependencies
+------------
 
 - dia (for diagrams)
-- git
-- lyx (for the LaTeX source)
+- lyx
 - texlive and texlive-lang-portuguese
